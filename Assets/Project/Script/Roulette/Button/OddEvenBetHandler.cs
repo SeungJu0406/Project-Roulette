@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class OddEvenInputHandler : RouletteInputController
+public class OddEvenBetHandler : RouletteBetController
 {
     enum OddEven
     {
@@ -11,7 +11,7 @@ public class OddEvenInputHandler : RouletteInputController
     [SerializeField] private OddEven _oddEven;
 
 
-    protected override void SetSlots(RouletteSlot[] allSlots)
+    public override void SetSlots(RouletteSlot[] allSlots)
     {
         if (_oddEven == OddEven.Odd)
         {

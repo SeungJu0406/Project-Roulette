@@ -6,8 +6,8 @@ public class RouletteSlot : BaseUI
 {
     public int Number;
     public SlotColorType Color;
-    public int VerticalNum;
     public int HorizontalNum;
+    public int VerticalNum;
 
     private TMP_Text _numberText;
     private GameObject _black;
@@ -34,8 +34,8 @@ public class RouletteSlot : BaseUI
         InitGetUI();
         Number = number;
         Color = color;
-        VerticalNum = verticalNum;
-        HorizontalNum = horizontalNum;
+        HorizontalNum = verticalNum;
+        VerticalNum = horizontalNum;
 
         _black.SetActive(color == SlotColorType.Black);
         _red.SetActive(color == SlotColorType.Red);
