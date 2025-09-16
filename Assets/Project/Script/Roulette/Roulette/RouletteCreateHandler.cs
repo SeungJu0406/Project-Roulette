@@ -1,82 +1,30 @@
-using System.Collections.Generic;
 using UnityEngine;
 
-public class RouletteController : MonoBehaviour
+[System.Serializable]
+public class RouletteCreateHandler
 {
-    public RouletteSlot[] Slots => _slots;
-
     [SerializeField] private RouletteSlot _slotPrefab;
     [SerializeField] private Transform _slotsParent;
     [SerializeField] private int _maxVerticalNum = 3;
     [SerializeField] private int _maxHorizontalNum = 12;
-    [SerializeField] private RouletteSlot[] _slots;
-    [SerializeField] private List<RouletteSlot> _betSlots;
 
-    // TODO : 테스트용
-    [SerializeField] private int _randomIndex;  
-
-    private RouletteBetController[] _betHandlers;
-    private void Awake()
+    private RouletteController _controller;
+    private RouletteSlot[] _slots { get => _controller.Slots; set => _controller.Slots = value; }
+    public void Initialize(RouletteController roulette)
     {
-        _betHandlers = GetComponentsInChildren<RouletteBetController>(true);
+        _controller = roulette;
     }
-
-    private void Start()
-    {
-        InitBetHandler();
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            Spin();
-            CheckBetResult();
-        }
-    }
-    public void SetBetSlots(List<RouletteSlot> betSlots)
-    {
-        _betSlots = betSlots;
-    }
-
-    public void Spin()
-    {
-        _randomIndex = Random.Range(0, _slots.Length);
-    }
-    private void CheckBetResult()
-    {
-        foreach (var slot in _betSlots)
-        {
-            if(slot == _slots[_randomIndex])
-            {
-                Debug.Log("Win! Number: " + slot.Number);
-                return;
-            }
-        }
-        Debug.Log("Lose! Winning Number: " + _slots[_randomIndex].Number);
-    }
-
-    private void InitBetHandler()
-    {
-        foreach (var handler in _betHandlers)
-        {
-            handler.SetRouletteController(this);
-            handler.SetSlots(_slots);
-        }
-    }
-
     /// <summary>
     /// 룰렛 최초 생성
     /// </summary>
-    [ContextMenu("CreateRoulette")]
-    private void CreateRoulette()
+    public void CreateRoulette()
     {
         DeleteRoulette();
 
         _slots = new RouletteSlot[36];
         for (int i = 0; i < 36; i++)
         {
-            _slots[i] = Instantiate(_slotPrefab, _slotsParent);
+            _slots[i] = GameObject.Instantiate(_slotPrefab, _slotsParent);
             // 넘버
             int number = i + 1;
             // 색깔
@@ -89,7 +37,7 @@ public class RouletteController : MonoBehaviour
                     break;
                 case 1:
                     color = (number % 2 == 0) ? SlotColorType.Red : SlotColorType.Black;
-                    if(number == 10)
+                    if (number == 10)
                         color = SlotColorType.Black;
                     break;
                 case 2:
@@ -97,7 +45,7 @@ public class RouletteController : MonoBehaviour
                     break;
                 case 3:
                     color = (number % 2 == 0) ? SlotColorType.Red : SlotColorType.Black;
-                    if(number == 28)
+                    if (number == 28)
                         color = SlotColorType.Black;
                     break;
                 default:
@@ -110,7 +58,7 @@ public class RouletteController : MonoBehaviour
             // 열
             int HorizontalNum = i / _maxHorizontalNum;
             // 슬롯 생성
-            _slots[i].Initialize(number, color, verticalNum, HorizontalNum);
+            _slots[i].Initialize(number, color, HorizontalNum, verticalNum);
 
             int Horizontal = i / _maxVerticalNum;
             // 위치 지정
@@ -134,7 +82,7 @@ public class RouletteController : MonoBehaviour
         for (int i = _slots.Length - 1; i >= 0; i--)
         {
             if (_slots[i] != null)
-                Destroy(_slots[i].gameObject);
+                GameObject.Destroy(_slots[i].gameObject);
         }
     }
 }

@@ -27,15 +27,15 @@ public class RouletteSlot : BaseUI
     }
 
 
-    public void Initialize(int number, SlotColorType color, int verticalNum, int horizontalNum)
+    public void Initialize(int number, SlotColorType color, int horizontalNumber, int verticalNumber)
     {
         if(!_isBind)
             Bind();
         InitGetUI();
         Number = number;
         Color = color;
-        HorizontalNum = verticalNum;
-        VerticalNum = horizontalNum;
+        HorizontalNum = horizontalNumber;
+        VerticalNum = verticalNumber;
 
         _black.SetActive(color == SlotColorType.Black);
         _red.SetActive(color == SlotColorType.Red);
