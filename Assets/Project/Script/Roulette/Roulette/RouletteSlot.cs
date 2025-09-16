@@ -12,7 +12,7 @@ public class RouletteSlot : BaseUI
     private TMP_Text _numberText;
     private GameObject _black;
     private GameObject _red;
-
+    private GameObject _outline;
 
 
     protected override void InitGetUI()
@@ -20,10 +20,11 @@ public class RouletteSlot : BaseUI
         _numberText = GetUI<TMP_Text>("NumberText");
         _black = GetUI("Black");
         _red = GetUI("Red");
+        _outline = GetUI("Outline");
     }
     protected override void InitAwake()
     {
-
+       SetOutline(false);
     }
 
 
@@ -40,5 +41,15 @@ public class RouletteSlot : BaseUI
         _black.SetActive(color == SlotColorType.Black);
         _red.SetActive(color == SlotColorType.Red);
         _numberText.text = number.ToString();
+    }
+
+    public void RevouleSlot()
+    {
+        SetOutline(true);
+    }
+
+    public void SetOutline(bool isActive)
+    {
+        _outline.SetActive(isActive);
     }
 }

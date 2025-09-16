@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 public class RouletteController : MonoBehaviour
@@ -38,7 +39,9 @@ public class RouletteController : MonoBehaviour
 
     public void Spin()
     {
+        Slots[_randomIndex].SetOutline(false);
         _randomIndex = Random.Range(0, Slots.Length);
+        Slots[_randomIndex].RevouleSlot();
     }
     private void CheckBetResult()
     {
@@ -52,13 +55,12 @@ public class RouletteController : MonoBehaviour
         {
             if(slot == Slots[_randomIndex])
             {
-                Debug.Log("Win! Number: " + slot.Number);
+                Debug.Log("Win! Number: " + slot.Number);              
                 return;
             }
         }
         Debug.Log("Lose! Winning Number: " + Slots[_randomIndex].Number);
-
-       _betSlots.Clear();
+        _betSlots.Clear();
     }
 
     private void InitBetHandler()

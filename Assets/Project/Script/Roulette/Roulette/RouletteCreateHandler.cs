@@ -58,7 +58,7 @@ public class RouletteCreateHandler
             // 열
             int HorizontalNum = i / _maxHorizontalNum;
             // 슬롯 생성
-            _slots[i].Initialize(number, color, HorizontalNum, verticalNum);
+            _slots[i].Initialize(number, color, verticalNum, HorizontalNum);
 
             int Horizontal = i / _maxVerticalNum;
             // 위치 지정
