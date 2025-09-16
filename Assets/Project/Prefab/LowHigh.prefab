@@ -815,6 +815,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4660fa84396f4874089769c0388716bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _betMultiplier: 2
   _slots: []
   _minValue: 1
   _maxValue: 18

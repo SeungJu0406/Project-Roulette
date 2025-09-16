@@ -474,6 +474,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fabad933046908439e9723d0cb77a6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _betMultiplier: 3
   _slots: []
   _horizontalIndex: 1
 --- !u!61 &3290595377423805321

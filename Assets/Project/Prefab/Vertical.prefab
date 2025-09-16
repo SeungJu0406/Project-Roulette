@@ -611,6 +611,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25d192c144a7a554cb987d6fe0978783, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _betMultiplier: 3
   _slots: []
   _verticalIndex: 1
 --- !u!61 &3290595377423805321

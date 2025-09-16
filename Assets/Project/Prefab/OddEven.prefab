@@ -476,6 +476,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d623a0f500854644bfbe7125034ffd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _betMultiplier: 2
   _slots: []
   _oddEven: 0
 --- !u!61 &3290595377423805321
