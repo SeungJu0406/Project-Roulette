@@ -1,15 +1,21 @@
 using System.Collections.Generic;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
+using UnityEngine.Events;
 using WeightUtility;
 
 public class RouletteController : MonoBehaviour
 {
-
     public RouletteSlot[] Slots;
-    [SerializeField] private List<RouletteSlot> _betSlots;
 
+    public event UnityAction<float> OnWinEvent;
+    public event UnityAction OnLoseEvent;
+
+    [SerializeField] private List<RouletteSlot> _betSlots;
+    private RouletteBetController _currentBetHandler;
     [SerializeField] private RouletteCreateHandler _createHandler;
+
+
 
     private RouletteBetController[] _betHandlers;
     private WeightTable<RouletteSlot> _weightTable;
@@ -34,6 +40,10 @@ public class RouletteController : MonoBehaviour
             CheckBetResult();
         }
     }
+    public void SetCurBetHandelr(RouletteBetController handler)
+    {
+        _currentBetHandler = handler;
+    }
     public void SetBetSlots(List<RouletteSlot> betSlots)
     {
         _betSlots = new List<RouletteSlot>(betSlots);
@@ -57,12 +67,33 @@ public class RouletteController : MonoBehaviour
         {
             if(slot == _resultSlot)
             {
-                Debug.Log("Win! Number: " + slot.Number);              
+                OnWin();
                 return;
             }
         }
-        Debug.Log("Lose! Winning Number: " + _resultSlot.Number);
+        OnLose();
+    }
+
+    private void OnWin()
+    {
+        float betMultiplier = _currentBetHandler == null ? 0 : _currentBetHandler.BetMultiplier;
+
+        // TODO : 추가 배율 계산
+
+        OnWinEvent?.Invoke(betMultiplier);
+        ClearBets();
+    }
+
+    private void OnLose()
+    {
+        OnLoseEvent?.Invoke();
+        ClearBets();
+    }
+
+    private void ClearBets()
+    {
         _betSlots.Clear();
+        _currentBetHandler = null;
     }
 
     private void InitBetHandler()

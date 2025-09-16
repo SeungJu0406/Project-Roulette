@@ -4,6 +4,7 @@ using UnityEngine.EventSystems;
 
 public abstract class RouletteBetController : PointHandler
 {
+    public float BetMultiplier => _betMultiplier;
     [SerializeField] private float _betMultiplier = 1f;
     [SerializeField] protected List<RouletteSlot> _slots;
 
@@ -14,6 +15,7 @@ public abstract class RouletteBetController : PointHandler
     }
     protected override void OnPointClick(PointerEventData eventData)
     {
+        _rouletteController.SetCurBetHandelr(this);
         _rouletteController.SetBetSlots(_slots);
     }
     protected override void OnPointEnter(PointerEventData eventData)

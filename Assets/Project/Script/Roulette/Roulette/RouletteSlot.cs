@@ -1,3 +1,4 @@
+using NSJ_MVVM;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -22,15 +23,20 @@ public class RouletteSlot : BaseUI
 
 
 
-
-    protected override void InitGetUI()
+    protected override void Awake()
+    {
+        base.Awake();
+        InitGetUI();
+        InitAwake();
+    }
+    private void InitGetUI()
     {
         _numberText = GetUI<TMP_Text>("NumberText");
         _black = GetUI("Black");
         _red = GetUI("Red");
         _outline = GetUI("Outline");
     }
-    protected override void InitAwake()
+    private void InitAwake()
     {
        SetOutline(false);
     }
