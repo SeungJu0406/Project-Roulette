@@ -74,6 +74,15 @@ namespace WeightUtility
                 _totalWeight = _elements.Sum(e => e.Weight);
             }
         }
+        public void EditWeight(T element, float newWeight)
+        {
+            var weightElement = _elements.Find(e => EqualityComparer<T>.Default.Equals(e.Value, element));
+            if (weightElement != null)
+            {
+                weightElement.SetWeight(newWeight);
+                _totalWeight = _elements.Sum(e => e.Weight);
+            }
+        }
         public void Clear()
         {
             _elements.Clear();

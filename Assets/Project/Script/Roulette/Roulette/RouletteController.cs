@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
+using WeightUtility;
 
 public class RouletteController : MonoBehaviour
 {
@@ -8,12 +9,12 @@ public class RouletteController : MonoBehaviour
     public RouletteSlot[] Slots;
     [SerializeField] private List<RouletteSlot> _betSlots;
 
-    // TODO : Å×½ºÆ®¿ë
-    [SerializeField] private int _randomIndex;
-
     [SerializeField] private RouletteCreateHandler _createHandler;
 
     private RouletteBetController[] _betHandlers;
+    private WeightTable<RouletteSlot> _weightTable;
+
+    private RouletteSlot _resultSlot;
     private void Awake()
     {
         _betHandlers = GetComponentsInChildren<RouletteBetController>(true);
@@ -21,6 +22,7 @@ public class RouletteController : MonoBehaviour
 
     private void Start()
     {
+        InitRoulette();
         InitBetHandler();
     }
 
@@ -39,9 +41,9 @@ public class RouletteController : MonoBehaviour
 
     public void Spin()
     {
-        Slots[_randomIndex].SetOutline(false);
-        _randomIndex = Random.Range(0, Slots.Length);
-        Slots[_randomIndex].RevouleSlot();
+        _resultSlot?.SetOutline(false);
+        _resultSlot = _weightTable.Pick();
+        _resultSlot?.RevouleSlot();
     }
     private void CheckBetResult()
     {
@@ -53,13 +55,13 @@ public class RouletteController : MonoBehaviour
 
         foreach (var slot in _betSlots)
         {
-            if(slot == Slots[_randomIndex])
+            if(slot == _resultSlot)
             {
                 Debug.Log("Win! Number: " + slot.Number);              
                 return;
             }
         }
-        Debug.Log("Lose! Winning Number: " + Slots[_randomIndex].Number);
+        Debug.Log("Lose! Winning Number: " + _resultSlot.Number);
         _betSlots.Clear();
     }
 
@@ -70,6 +72,22 @@ public class RouletteController : MonoBehaviour
             handler.SetRouletteController(this);
             handler.SetSlots(Slots);
         }
+    }
+
+    private void InitRoulette()
+    {
+        // ½½·Ô È®·ü Å×ÀÌºí ÃÊ±âÈ­
+        _weightTable = new WeightTable<RouletteSlot>();
+        foreach (var slot in Slots)
+        {
+            _weightTable.AddElement(slot, slot.Probability);
+            slot.OnProbabilityChanged += EditSlotProbability;
+        }
+    }
+
+    private void EditSlotProbability(RouletteSlot slot)
+    {
+        _weightTable.EditWeight(slot, slot.Probability);
     }
     /// <summary>
     /// ·ê·¿ ÃÖÃÊ »ý¼º

@@ -1,4 +1,3 @@
-using NSJ_SaveUtility;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -71,14 +70,6 @@ namespace Utility
         public static T GetOrAddComponent<T>(this GameObject obj) where T : Component
         {
             return obj.TryGetComponent(out T comp) ? comp : obj.AddComponent<T>();
-        }
-
-        public static void ChangeStage(int stageLevel)
-        {
-            SaveManager.SetStageLevel(stageLevel);
-            SaveManager.SaveData();
-            // 2. ¾À ³Ñ±â±â
-            SceneManager.LoadSceneAsync("GameRouter", LoadSceneMode.Single);
         }
     }
 }

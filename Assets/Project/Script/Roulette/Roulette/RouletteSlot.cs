@@ -1,18 +1,26 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 public class RouletteSlot : BaseUI
 {
+    public float Probability { get => _probability; set { _probability = value; OnProbabilityChanged?.Invoke(this); } }
     public int Number;
     public SlotColorType Color;
     public int HorizontalNum;
     public int VerticalNum;
 
+    public event UnityAction<RouletteSlot> OnProbabilityChanged;
+
+    [SerializeField] private float _probability =1 ;
+
     private TMP_Text _numberText;
     private GameObject _black;
     private GameObject _red;
     private GameObject _outline;
+
+
 
 
     protected override void InitGetUI()
@@ -26,7 +34,6 @@ public class RouletteSlot : BaseUI
     {
        SetOutline(false);
     }
-
 
     public void Initialize(int number, SlotColorType color, int horizontalNumber, int verticalNumber)
     {
