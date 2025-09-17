@@ -1,48 +1,54 @@
+using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using UnityEngine.Events;
+using Utility;
 using WeightUtility;
 
 public class RouletteController : MonoBehaviour
 {
-    public RouletteSlot[] Slots;
+    public RouletteSlot[] Slots { get => _model.Slots; set { _model.Slots = value; } }
+
+    [SerializeField] private RouletteModel _model;
 
     public event UnityAction<float> OnWinEvent;
     public event UnityAction OnLoseEvent;
 
-    [SerializeField] private List<RouletteSlot> _betSlots;
-    private RouletteBetController _currentBetHandler;
+
     [SerializeField] private RouletteCreateHandler _createHandler;
+    [SerializeField] private float _spinDuration = 3f;
+    [SerializeField] private float _spenSpeedPerSecond = 5f;
 
+    private float _betMultiplier { get => _model.BetMultiplier; set { _model.BetMultiplier = value; } }
 
-
+    private List<RouletteSlot> _betSlots;
+    private RouletteBetController _currentBetHandler;
     private RouletteBetController[] _betHandlers;
     private WeightTable<RouletteSlot> _weightTable;
-
     private RouletteSlot _resultSlot;
     private void Awake()
     {
         _betHandlers = GetComponentsInChildren<RouletteBetController>(true);
+        _model.InitModel();
     }
 
     private void Start()
     {
         InitRoulette();
         InitBetHandler();
+        SubscribeEvent();
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            Spin();
-            CheckBetResult();
-        }
-    }
     public void SetCurBetHandelr(RouletteBetController handler)
     {
+        _betMultiplier /= _currentBetHandler == null ? 1f : _currentBetHandler.BetMultiplier;
+        _currentBetHandler?.Choice(false);
+
         _currentBetHandler = handler;
+
+        _betMultiplier *= _currentBetHandler == null ? 1f : _currentBetHandler.BetMultiplier;
+        _currentBetHandler?.Choice(true);
     }
     public void SetBetSlots(List<RouletteSlot> betSlots)
     {
@@ -51,10 +57,39 @@ public class RouletteController : MonoBehaviour
 
     public void Spin()
     {
-        _resultSlot?.SetOutline(false);
+        StartCoroutine(SpinRoutine());
+    }
+
+    private void SpinReal()
+    {
         _resultSlot = _weightTable.Pick();
         _resultSlot?.RevouleSlot();
+        CheckBetResult();
     }
+
+    IEnumerator SpinRoutine()
+    {
+        float delay = 1f / _spenSpeedPerSecond;
+        float timer = 0f;
+        RouletteSlot slot = null;
+        while (timer < _spinDuration)
+        {
+            timer += delay;
+            slot = PickSlot(slot);
+            yield return delay.Second();
+        }
+        slot?.SetOutline(false);
+        SpinReal();
+    }
+
+    private RouletteSlot PickSlot(RouletteSlot curSlot)
+    {
+        curSlot?.SetOutline(false);
+        curSlot = _weightTable.Pick();
+        curSlot?.SetOutline(true);
+        return curSlot;
+    }
+
     private void CheckBetResult()
     {
         if(_betSlots.Count == 0)
@@ -76,24 +111,24 @@ public class RouletteController : MonoBehaviour
 
     private void OnWin()
     {
-        float betMultiplier = _currentBetHandler == null ? 0 : _currentBetHandler.BetMultiplier;
-
         // TODO : 추가 배율 계산
+        OnWinEvent?.Invoke(_betMultiplier);
 
-        OnWinEvent?.Invoke(betMultiplier);
-        ClearBets();
+        _betMultiplier = 1f;
     }
 
     private void OnLose()
     {
         OnLoseEvent?.Invoke();
-        ClearBets();
+
+        _betMultiplier = 1f;
     }
 
     private void ClearBets()
     {
         _betSlots.Clear();
-        _currentBetHandler = null;
+        SetCurBetHandelr(null);
+        _betMultiplier = 1f;
     }
 
     private void InitBetHandler()
@@ -124,6 +159,12 @@ public class RouletteController : MonoBehaviour
     /// 룰렛 최초 생성
     /// </summary>
     private void CreateRoulette() => _createHandler.CreateRoulette();
+
+    private void SubscribeEvent()
+    {
+        TurnManager.Instance.OnTurnEndEvent += ClearBets;
+        TurnManager.Instance.OnSpinEvent += Spin;
+    }
 
     [ContextMenu("CreateRoulette")]
     private void CreateRouletteInspector()

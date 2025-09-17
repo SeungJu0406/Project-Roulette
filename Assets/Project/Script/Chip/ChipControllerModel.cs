@@ -18,7 +18,7 @@ public class ChipControllerModel : BaseModel
 
     protected override void Awake()
     {
-        BindingSystem<ChipViewModel>.TryBind(this);
+        BindingSystem<ChipViewModel>.Bind(this);
     }
 
     protected override void Destroy()

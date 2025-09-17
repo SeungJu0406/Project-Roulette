@@ -108,7 +108,7 @@ namespace NSJ_MVVM
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public static bool TryBind(IModel model)
+        public static bool Bind(IModel model)
         {
             // 지연 저장 큐를 만듭니다.
             if (Instance._modelStroage == null)

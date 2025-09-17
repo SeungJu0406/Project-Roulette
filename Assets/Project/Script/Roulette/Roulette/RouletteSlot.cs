@@ -29,6 +29,14 @@ public class RouletteSlot : BaseUI
         InitGetUI();
         InitAwake();
     }
+
+    private void Start()
+    {
+        TurnManager.Instance.OnTurnEndEvent += () => SetOutline(false);
+    }
+
+
+
     private void InitGetUI()
     {
         _numberText = GetUI<TMP_Text>("NumberText");
@@ -46,14 +54,30 @@ public class RouletteSlot : BaseUI
         if(!_isBind)
             Bind();
         InitGetUI();
-        Number = number;
-        Color = color;
-        HorizontalNum = horizontalNumber;
-        VerticalNum = verticalNumber;
+        InitNumber(number);
+        InitColor(color);
+        InitHorizontal(horizontalNumber);
+        InitVertical(verticalNumber);
+    }
 
+    public void InitNumber(int number)
+    {
+        Number = number;
+        _numberText.text = number.ToString();
+    }
+    public void InitColor(SlotColorType color)
+    {
+        Color = color;
         _black.SetActive(color == SlotColorType.Black);
         _red.SetActive(color == SlotColorType.Red);
-        _numberText.text = number.ToString();
+    }
+    public void InitHorizontal(int horizontalNumber)
+    {
+        HorizontalNum = horizontalNumber;
+    }
+    public void InitVertical(int verticalNumber)
+    {
+        VerticalNum = verticalNumber;
     }
 
     public void RevouleSlot()

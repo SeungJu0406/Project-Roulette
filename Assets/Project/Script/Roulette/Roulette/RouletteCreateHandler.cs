@@ -4,7 +4,6 @@ using UnityEngine;
 public class RouletteCreateHandler
 {
     [SerializeField] private RouletteSlot _slotPrefab;
-    [SerializeField] private Transform _slotsParent;
     [SerializeField] private int _maxVerticalNum = 3;
     [SerializeField] private int _maxHorizontalNum = 12;
 
@@ -21,10 +20,17 @@ public class RouletteCreateHandler
     {
         DeleteRoulette();
 
+        Transform slotsParent = new GameObject("Slots").transform;
+        slotsParent.SetParent(_controller.transform);
+        slotsParent.localPosition = Vector3.zero;
+        slotsParent.localRotation = Quaternion.identity;
+        slotsParent.localScale = Vector3.one;
+
         _slots = new RouletteSlot[36];
         for (int i = 0; i < 36; i++)
         {
-            _slots[i] = GameObject.Instantiate(_slotPrefab, _slotsParent);
+            // 슬롯 생성
+            _slots[i] = GameObject.Instantiate(_slotPrefab, slotsParent);
             // 넘버
             int number = i + 1;
             // 색깔
@@ -57,8 +63,6 @@ public class RouletteCreateHandler
             int verticalNum = i % _maxVerticalNum;
             // 열
             int HorizontalNum = i / _maxHorizontalNum;
-            // 슬롯 생성
-            _slots[i].Initialize(number, color, verticalNum, HorizontalNum);
 
             int Horizontal = i / _maxVerticalNum;
             // 위치 지정
@@ -69,9 +73,11 @@ public class RouletteCreateHandler
             float yOffset = -(prefabSizeY * _maxVerticalNum / 2) + verticalNum * prefabSizeY;
             _slots[i].transform.localPosition = new Vector3(xOffset, yOffset, 0);
 
+            // 슬롯 설정
+            _slots[i].Initialize(number, color, verticalNum, HorizontalNum);
             // 슬롯 입력 컨트롤러 설정
             SlotBetHandler slotInputController = _slots[i].GetComponent<SlotBetHandler>();
-            slotInputController.SetIndex(i);
+            slotInputController.SetNumber(number);
         }
     }
 
