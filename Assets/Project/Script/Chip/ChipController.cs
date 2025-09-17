@@ -6,8 +6,8 @@ public class ChipController : MonoBehaviour
 {
     [SerializeField] private ChipControllerModel _model;
     [SerializeField] private float _collectChipDelay = 0.02f;
-    private int _chipCount { get => _model.HoldChip; set => _model.HoldChip = value; }
-    private int _betCount { get => _model.BetChip; set => _model.BetChip = value; }
+    public int HoldChip { get => _model.HoldChip; set => _model.HoldChip = value; }
+    public int BettingChip { get => _model.BetChip; set => _model.BetChip = value; }
 
     private void Awake()
     {
@@ -27,21 +27,21 @@ public class ChipController : MonoBehaviour
     {
         if (chipCount >= 0)
         {
-            int betChip = Mathf.Min(_chipCount, chipCount);
-            _betCount += betChip;
-            _chipCount -= betChip;
+            int betChip = Mathf.Min(HoldChip, chipCount);
+            BettingChip += betChip;
+            HoldChip -= betChip;
         }
         else
         {
-            int returnChip = Mathf.Min(_betCount, -chipCount);
-            _betCount -= returnChip;
-            _chipCount += returnChip;
+            int returnChip = Mathf.Min(BettingChip, -chipCount);
+            BettingChip -= returnChip;
+            HoldChip += returnChip;
         }
     }
 
     private void CollectChip(float betMultiplier)
     {
-        int winAmount = Mathf.RoundToInt(_betCount * betMultiplier);
+        int winAmount = Mathf.RoundToInt(BettingChip * betMultiplier);
         StartCoroutine(CollectChipRoutine(winAmount));
     }
     private void LoseChip()
@@ -53,11 +53,11 @@ public class ChipController : MonoBehaviour
     {
         while (winAmount > 0)
         {
-            _chipCount += 1;
+            HoldChip += 1;
             winAmount -= 1;
 
-            if(_betCount > 0)
-                _betCount -= 1;
+            if(BettingChip > 0)
+                BettingChip -= 1;
             yield return _collectChipDelay.Second();
         }
 
@@ -67,9 +67,9 @@ public class ChipController : MonoBehaviour
     }
     IEnumerator LoseChipRoutine()
     {
-        while (_betCount > 0)
+        while (BettingChip > 0)
         {
-            _betCount -= 1;
+            BettingChip -= 1;
             yield return _collectChipDelay.Second();
         }
 
