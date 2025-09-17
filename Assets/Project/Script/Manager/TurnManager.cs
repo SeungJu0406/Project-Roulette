@@ -10,6 +10,10 @@ public class TurnManager : MonoBehaviour
     public event UnityAction OnSpinEvent;
     public event UnityAction OnWinEvent;
     public event UnityAction OnLoseEvent;
+    public event UnityAction OnRoundEndEvent;
+    public event UnityAction OnRoundStartEvent;
+    public event UnityAction OnShopStartEvent;
+    public event UnityAction OnShopEndEvent;
     public event UnityAction OnCommandSpinEvent;
 
     private void Awake()
@@ -40,6 +44,22 @@ public class TurnManager : MonoBehaviour
     public void LoseInvoke()
     {
         OnLoseEvent?.Invoke();
+    }
+    public void ShopStartInvoke()
+    {
+        OnShopStartEvent?.Invoke();
+    }
+    public void ShopEndInvoke()
+    {
+        OnShopEndEvent?.Invoke();
+    }
+    public void RoundEndInvoke()
+    {
+        OnRoundEndEvent?.Invoke();
+    }
+    public void RoundStartInvoke()
+    {
+        OnRoundStartEvent?.Invoke();
     }
     public void CommandSpinInvoke()
     {
