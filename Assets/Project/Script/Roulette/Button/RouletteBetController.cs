@@ -10,19 +10,26 @@ public abstract class RouletteBetController : PointHandler
 
     private ChoiceObject _choiceObject;
     private RouletteController _rouletteController;
+
+    private bool _canClick = true;
     private void Awake()
     {
+
         _choiceObject = GetComponentInChildren<ChoiceObject>();
         _choiceObject?.gameObject.SetActive(false);
         InitAwake();
     }
     private void Start()
     {
-        TurnManager.Instance.OnTurnEndEvent += () => Choice(false);
+        Manager.Turn.OnTurnEndEvent += EndTurn;
+        Manager.Turn.OnSpinEvent += OnSpin;
+        Manager.Turn.OnTurnStartEvent += StartTurn;
     }
 
     protected override void OnPointClick(PointerEventData eventData)
     {
+        if (_canClick == false) return;
+
         _rouletteController.SetCurBetHandelr(this);
         _rouletteController.SetBetSlots(_slots);
     }
@@ -42,6 +49,19 @@ public abstract class RouletteBetController : PointHandler
     public void Choice(bool isChoice)
     {
         _choiceObject.gameObject.SetActive(isChoice);
+    }
+
+    private void EndTurn()
+    {
+         Choice(false);
+    }
+    private void StartTurn()
+    {
+        _canClick = true;
+    }
+    private void OnSpin()
+    {
+        _canClick = false;
     }
 
 }

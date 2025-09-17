@@ -38,9 +38,7 @@ public class CardController : MonoBehaviour
     }
     public void SubscribeEvent()
     {
-        _roulette.OnSpinEvent += OnSpin;
-        _roulette.OnWinEvent += (float winAmount) => OnWin();
-        _roulette.OnLoseEvent += OnLose;
+
     }
     private void Update()
     {
@@ -117,6 +115,20 @@ public class CardController : MonoBehaviour
         foreach (var passive in _passiveCards)
         {
             passive.Card.OnLose();
+        }
+    }
+    public void OnTurnStart()
+    {
+        foreach (var passive in _passiveCards)
+        {
+            passive.Card.OnTurnStart();
+        }
+    }
+    public void OnTurnEnd()
+    {
+        foreach (var passive in _passiveCards)
+        {
+            passive.Card.OnTurnEnd();
         }
     }
 }

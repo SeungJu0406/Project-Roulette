@@ -2,32 +2,48 @@ using UnityEngine;
 using UnityEngine.Events;
 using Utility;
 
-public class TurnManager : SingleTon<TurnManager>
+public class TurnManager : MonoBehaviour
 {
 
     public event UnityAction OnTurnStartEvent;
     public event UnityAction OnTurnEndEvent;
     public event UnityAction OnSpinEvent;
-    protected override void InitAwake()
+    public event UnityAction OnWinEvent;
+    public event UnityAction OnLoseEvent;
+    public event UnityAction OnCommandSpinEvent;
+
+    private void Awake()
     {
-      
+        Manager.SetTurnManager(this);
+    }
+    private void OnDestroy()
+    {
+        Manager.SetTurnManager(null);
     }
 
-
-    public static void EndTurnInvoke()
+    public void EndTurnInvoke()
     {
-        Instance.OnTurnEndEvent?.Invoke();
-
-        // TODO : 잠깐 바로 턴 시작
-        StartTurnInvoke();
+        OnTurnEndEvent?.Invoke();
     }
-    public static void StartTurnInvoke()
+    public  void StartTurnInvoke()
     {
-        Instance.OnTurnStartEvent?.Invoke();
+        OnTurnStartEvent?.Invoke();
     }
-    public static void SpinInvoke()
+    public  void SpinInvoke()
     {
-        Instance.OnSpinEvent?.Invoke();
+        OnSpinEvent?.Invoke();
+    }
+    public void WinInvoke()
+    {
+        OnWinEvent?.Invoke();
+    }
+    public void LoseInvoke()
+    {
+        OnLoseEvent?.Invoke();
+    }
+    public void CommandSpinInvoke()
+    {
+        OnCommandSpinEvent?.Invoke();
     }
 
 

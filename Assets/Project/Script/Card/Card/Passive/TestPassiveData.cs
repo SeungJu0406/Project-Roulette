@@ -5,6 +5,6 @@ public class TestPassiveData : PassiveCardData
 {
     protected override PassiveCard CreateCard()
     {
-        return new TestPassive();
+        return new TestPassive(this);
     }
 }

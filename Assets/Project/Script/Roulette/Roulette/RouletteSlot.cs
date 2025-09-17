@@ -22,17 +22,20 @@ public class RouletteSlot : BaseUI
     private GameObject _outline;
 
 
-
     protected override void Awake()
     {
         base.Awake();
         InitGetUI();
         InitAwake();
     }
+    private void InitAwake()
+    {
+        SetOutline(false);
+    }
 
     private void Start()
     {
-        TurnManager.Instance.OnTurnEndEvent += () => SetOutline(false);
+        Manager.Turn.OnTurnEndEvent += () => SetOutline(false);
     }
 
 
@@ -43,10 +46,6 @@ public class RouletteSlot : BaseUI
         _black = GetUI("Black");
         _red = GetUI("Red");
         _outline = GetUI("Outline");
-    }
-    private void InitAwake()
-    {
-       SetOutline(false);
     }
 
     public void Initialize(int number, SlotColorType color, int horizontalNumber, int verticalNumber)

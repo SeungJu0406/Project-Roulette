@@ -9,8 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7dcaa5ca6b3f2f345a66a566285910f5, type: 3}
-  m_Name: TestPassiveData
+  m_Script: {fileID: 11500000, guid: 6cceb02a50247a446be4b0aa6aa5e89a, type: 3}
+  m_Name: AllInWrath
   m_EditorClassIdentifier: 
   Name: 
   Description: 
+  ExtraBetMultiplier: 5

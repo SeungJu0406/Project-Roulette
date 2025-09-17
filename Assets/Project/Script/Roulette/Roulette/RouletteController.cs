@@ -11,16 +11,12 @@ public class RouletteController : MonoBehaviour
 
     [SerializeField] private RouletteModel _model;
 
-    public event UnityAction OnSpinEvent;
-    public event UnityAction<float> OnWinEvent;
-    public event UnityAction OnLoseEvent;
-
 
     [SerializeField] private RouletteCreateHandler _createHandler;
     [SerializeField] private float _spinDuration = 3f;
     [SerializeField] private float _spenSpeedPerSecond = 5f;
 
-    private float _betMultiplier { get => _model.BetMultiplier; set { _model.BetMultiplier = value; } }
+    public float BetMultiplier { get => _model.BetMultiplier; set { _model.BetMultiplier = value; } }
 
     private List<RouletteSlot> _betSlots;
     private RouletteBetController _currentBetHandler;
@@ -28,8 +24,10 @@ public class RouletteController : MonoBehaviour
     private WeightTable<RouletteSlot> _weightTable;
     private RouletteSlot _resultSlot;
     private bool _canSpin = true;
+
     private void Awake()
     {
+
         _betHandlers = GetComponentsInChildren<RouletteBetController>(true);
         _model.InitModel();
     }
@@ -43,12 +41,12 @@ public class RouletteController : MonoBehaviour
 
     public void SetCurBetHandelr(RouletteBetController handler)
     {
-        _betMultiplier /= _currentBetHandler == null ? 1f : _currentBetHandler.BetMultiplier;
+        BetMultiplier /= _currentBetHandler == null ? 1f : _currentBetHandler.BetMultiplier;
         _currentBetHandler?.Choice(false);
 
         _currentBetHandler = handler;
 
-        _betMultiplier *= _currentBetHandler == null ? 1f : _currentBetHandler.BetMultiplier;
+        BetMultiplier *= _currentBetHandler == null ? 1f : _currentBetHandler.BetMultiplier;
         _currentBetHandler?.Choice(true);
     }
     public void SetBetSlots(List<RouletteSlot> betSlots)
@@ -56,19 +54,25 @@ public class RouletteController : MonoBehaviour
         _betSlots = new List<RouletteSlot>(betSlots);
     }
 
-    public void AddBetMultiplier(float multiplier) => _betMultiplier *= multiplier;
-    public void SubtractBetMultiplier(float multiplier) => _betMultiplier /= multiplier;
+    public void AddBetMultiplier(float multiplier) => BetMultiplier *= multiplier;
+    public void SubtractBetMultiplier(float multiplier) => BetMultiplier /= multiplier;
 
-    public void Spin()
+    private void CheckCanSpin()
     {
         if (_canSpin == false)
             return;
         if (_currentBetHandler == null)
             return;
+        if(_betSlots.Count == 0)
+            return;
 
+        Manager.Turn.SpinInvoke();
+    }
+
+    public void Spin()
+    {
         _canSpin = false;
 
-        OnSpinEvent?.Invoke();
 
         StartCoroutine(SpinRoutine());
     }
@@ -124,23 +128,23 @@ public class RouletteController : MonoBehaviour
 
     private void OnWin()
     {
-        OnWinEvent?.Invoke(_betMultiplier);
+        Manager.Turn.WinInvoke();
     }
 
     private void OnLose()
     {
-        OnLoseEvent?.Invoke();
+        Manager.Turn.LoseInvoke();
     }
 
-    private void StartTurn()
+    public void StartTurn()
     {
         _canSpin = true;
     }
-    private void EndTurn()
+    public void ClearBet()
     {
         _betSlots.Clear();
         SetCurBetHandelr(null);
-        _betMultiplier = 1f;
+        BetMultiplier = 1f;
     }
 
     private void InitBetHandler()
@@ -174,9 +178,7 @@ public class RouletteController : MonoBehaviour
 
     private void SubscribeEvent()
     {
-        TurnManager.Instance.OnTurnStartEvent += StartTurn;
-        TurnManager.Instance.OnTurnEndEvent += EndTurn;
-        TurnManager.Instance.OnSpinEvent += Spin;
+        Manager.Turn.OnCommandSpinEvent += CheckCanSpin;
     }
 
     [ContextMenu("CreateRoulette")]
