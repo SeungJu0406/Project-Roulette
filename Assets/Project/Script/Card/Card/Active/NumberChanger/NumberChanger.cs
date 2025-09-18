@@ -21,7 +21,7 @@ public class NumberChanger : ActiveCard
         if (slotNumber < 0 || slotNumber > 36)
             return false;
 
-        slot.InitNumber(slotNumber);
+        slot.SetNumber(slotNumber);
         return true;
 
     }

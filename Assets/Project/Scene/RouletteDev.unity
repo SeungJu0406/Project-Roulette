@@ -2495,7 +2495,7 @@ MonoBehaviour:
     _activeCards: []
     _passiveCards: []
   _test: {fileID: 11400000, guid: d91b9ce00c7130345869c0e971732843, type: 2}
-  _testActive: {fileID: 11400000, guid: 7d51ce7654e07ee48b66edbb53bc7923, type: 2}
+  _testActive: {fileID: 11400000, guid: 8b67e449e0bf29142af8aa9906756e18, type: 2}
 --- !u!4 &198913930
 Transform:
   m_ObjectHideFlags: 0

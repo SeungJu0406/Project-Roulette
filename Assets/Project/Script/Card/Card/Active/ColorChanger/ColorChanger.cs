@@ -15,11 +15,11 @@ public class ColorChanger : ActiveCard
 
         if (color == SlotColorType.Red)
         {
-            slot.InitColor(SlotColorType.Black);
+            slot.SetColor(SlotColorType.Black);
         }
         else
         {
-            slot.InitColor(SlotColorType.Red);
+            slot.SetColor(SlotColorType.Red);
         }
         return true;
     }

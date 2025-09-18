@@ -34,9 +34,17 @@ public class RouletteController : MonoBehaviour
 
     private void Start()
     {
-        InitRoulette();
+        InitRouletteWeight();
         InitBetHandler();
         SubscribeEvent();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Slots[0].AddProbability(10f);
+        }
     }
 
     public void SetCurBetHandelr(RouletteBetController handler)
@@ -168,7 +176,7 @@ public class RouletteController : MonoBehaviour
         }
     }
 
-    private void InitRoulette()
+    private void InitRouletteWeight()
     {
         // ½½·Ô È®·ü Å×ÀÌºí ÃÊ±âÈ­
         _weightTable = new WeightTable<RouletteSlot>();
@@ -179,9 +187,20 @@ public class RouletteController : MonoBehaviour
         }
     }
 
-    private void EditSlotProbability(RouletteSlot slot)
+    private void EditSlotProbability(RouletteSlot slot, float changeValue)
     {
-        _weightTable.EditWeight(slot, slot.Probability);
+        float decreaseProbability = changeValue / (Slots.Length - 1);
+        foreach (var s in Slots)
+        {
+            if (s == slot)
+                continue;
+            s.Probability -= decreaseProbability;
+        }
+        _weightTable = new WeightTable<RouletteSlot>();
+        foreach (var s in Slots)
+        {
+            _weightTable.AddElement(s, s.Probability);
+        }
     }
     /// <summary>
     /// ·ê·¿ ÃÖÃÊ »ý¼º

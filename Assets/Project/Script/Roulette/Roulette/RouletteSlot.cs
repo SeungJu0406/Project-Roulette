@@ -6,17 +6,17 @@ using UnityEngine.EventSystems;
 
 public class RouletteSlot : BaseUI
 {
-    public float Probability { get => _probability; set { _probability = value; OnProbabilityChanged?.Invoke(this); } }
+    public float Probability { get => _probability; set { _probability = value; } }
     public int Number;
     public SlotColorType Color;
     public int HorizontalNum;
     public int VerticalNum;
 
-    public event UnityAction<RouletteSlot> OnProbabilityChanged;
+    public event UnityAction<RouletteSlot, float> OnProbabilityChanged;
 
     public event UnityAction OnSlotInfoChanged;
 
-    [SerializeField] private float _probability =1 ;
+    [SerializeField] private float _probability;
 
     private TMP_Text _numberText;
     private GameObject _black;
@@ -54,38 +54,44 @@ public class RouletteSlot : BaseUI
 
     public void Initialize(int number, SlotColorType color, int horizontalNumber, int verticalNumber)
     {
-        if(!_isBind)
+        if (!_isBind)
             Bind();
         InitGetUI();
-        InitNumber(number);
-        InitColor(color);
-        InitHorizontal(horizontalNumber);
-        InitVertical(verticalNumber);
+        SetNumber(number);
+        SetColor(color);
+        SetHorizontal(horizontalNumber);
+        SetVertical(verticalNumber);
     }
 
-    public void InitNumber(int number)
+    public void SetNumber(int number)
     {
         Number = number;
-        _betHandler.SetNumber(number);
+        _betHandler?.SetNumber(number);
         _numberText.text = number.ToString();
         OnSlotInfoChanged?.Invoke();
     }
-    public void InitColor(SlotColorType color)
+    public void SetColor(SlotColorType color)
     {
         Color = color;
         _black.SetActive(color == SlotColorType.Black);
         _red.SetActive(color == SlotColorType.Red);
         OnSlotInfoChanged?.Invoke();
     }
-    public void InitHorizontal(int horizontalNumber)
+    public void SetHorizontal(int horizontalNumber)
     {
         HorizontalNum = horizontalNumber;
         OnSlotInfoChanged?.Invoke();
     }
-    public void InitVertical(int verticalNumber)
+    public void SetVertical(int verticalNumber)
     {
         VerticalNum = verticalNumber;
         OnSlotInfoChanged?.Invoke();
+    }
+
+    public void AddProbability(float probability)
+    {
+        Probability += probability;
+        OnProbabilityChanged?.Invoke(this, probability);
     }
 
     public void RevouleSlot()
@@ -100,7 +106,7 @@ public class RouletteSlot : BaseUI
 
     protected override void OnPointEnter(PointerEventData eventData)
     {
-     Manager.SlotPoint.SetSlot(this);   
+        Manager.SlotPoint.SetSlot(this);
     }
     protected override void OnPointExit(PointerEventData eventData)
     {
