@@ -22,9 +22,6 @@ public class CardController : MonoBehaviour
     private List<PassiveCardStruct> _passiveCards => _model.PassiveCards;
 
 
-    [SerializeField] private PassiveCardData _test;
-    [SerializeField] private ActiveCardData _testActive;
-
     private RouletteController _roulette;
     private ChipController _chip;
 
@@ -48,23 +45,19 @@ public class CardController : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            AddPassiveCard(_test);
-        }
-        if (Input.GetKeyDown(KeyCode.Y))
-        {
-            if (_passiveCards.Count > 0)
-                RemovePassiveCard(0);
-        }
-
         if (Input.GetKeyDown(KeyCode.G))
         {
-            AddActiveCard(_testActive);
+            AddPassiveCard(CardDatabase.GetRandomPassive());
         }
     }
 
-    // method
+    // methods
+
+    public void AddRandomActiveCard()
+    {
+        ActiveCardData active = CardDatabase.GetRandomActive();
+        AddActiveCard(active);
+    }
 
     // 액티브 카드 추가
     public void AddActiveCard(ActiveCardData activeCard)

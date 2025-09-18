@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9def564e5471bdc468699055947faffe, type: 3}
   m_Name: CopySlot
   m_EditorClassIdentifier: 
-  Name: 
+  Weight: 1
+  Name: "\uBCF5\uC0AC"
   Description: 

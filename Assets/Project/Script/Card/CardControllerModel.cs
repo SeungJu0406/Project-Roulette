@@ -19,12 +19,14 @@ public class CardControllerModel : BaseModel
     {
         BindingSystem<PassiveViewModel>.Bind(this);
         BindingSystem<ActiveViewModel>.Bind(this);
+        BindingSystem<ShopPassiveViewModel>.Bind(this);
     }
 
     protected override void Destroy()
     {
         BindingSystem<PassiveViewModel>.UnBind(this);
         BindingSystem<ActiveViewModel>.UnBind(this);
+        BindingSystem<ShopPassiveViewModel>.UnBind(this);
     }
 
     protected override void Start()

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace WeightUtility
 {
@@ -57,7 +58,12 @@ namespace WeightUtility
                 }
             }
 
-            return _elements.Last().Value; // Fallback
+            if(_elements.Count == 0)
+            {
+                return default;
+            }
+            T fallback = _elements.Last().Value;      
+            return fallback;
         }
 
         public void AddElement(T element, float weight)

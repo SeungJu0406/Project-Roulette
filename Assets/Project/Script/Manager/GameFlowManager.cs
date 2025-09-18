@@ -6,6 +6,7 @@ public class GameFlowManager : MonoBehaviour
     private ChipController _chip;
     private CardController _card;
     private TurnController _turn;
+    private ShopController _shop;
 
     private void Awake()
     {
@@ -15,6 +16,7 @@ public class GameFlowManager : MonoBehaviour
         _chip = FindAnyObjectByType<ChipController>();
         _card = FindAnyObjectByType<CardController>();
         _turn = FindAnyObjectByType<TurnController>();
+        _shop = FindAnyObjectByType<ShopController>();
     }
 
     private void Start()
@@ -98,6 +100,12 @@ public class GameFlowManager : MonoBehaviour
         // 라운드 시작 UI 띄우기
         UIManager.ChangePanel(InGameCanvas.Panel.RoundStart);
         // 초기 칩 지급
+        _chip.HoldChip = _chip.StartChip;
+        // 초기 액티브 카드 지급
+        for (int i = 0; i < 3; i++)
+        {
+            _card.AddRandomActiveCard();
+        }
 
         // 턴 횟수 초기화
         _turn.CurrentTurn = 0;
@@ -111,6 +119,9 @@ public class GameFlowManager : MonoBehaviour
     {
         // 상점 UI 띄우기
         UIManager.ChangePanel(InGameCanvas.Panel.Shop);
+
+        // 패시브 카드 선택존 세팅
+        _shop.SetPassiveChoice();
     }
     private void EndShopFlow()
     {
