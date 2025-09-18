@@ -9,12 +9,16 @@ public class CardControllerModel : BaseModel
     public List<ActiveCardStruct> ActiveCards { get => _activeCards; set { _activeCards = value; } }
     public List<PassiveCardStruct> PassiveCards { get => _passiveCards; set { _passiveCards = value; } }
 
+    public int MaxActiveCardCount { get => _maxActiveCardCount; set { _maxActiveCardCount = value; } }
+
     public UnityAction<int> OnPassiveCardsChanged;
     public UnityAction<int> OnActiveCardsChanged;
     public UnityAction<int> OnUseCardEventReciever;
 
     [SerializeField] private List<ActiveCardStruct> _activeCards;
     [SerializeField] private List<PassiveCardStruct> _passiveCards;
+
+    [SerializeField] private int _maxActiveCardCount = 3;
     protected override void Awake()
     {
         BindingSystem<PassiveViewModel>.Bind(this);

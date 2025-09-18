@@ -16,7 +16,7 @@ public class AllInWrath : PassiveCard
         Apply();
     }
 
-    protected override void Apply()
+    protected override void ProcessApply()
     {
         _roulette.AddBetMultiplier(_data.ExtraBetMultiplier);
     }

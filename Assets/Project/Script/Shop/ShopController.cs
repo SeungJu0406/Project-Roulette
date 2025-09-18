@@ -25,10 +25,12 @@ public class ShopController : MonoBehaviour
         for (int i = 0; i < _passiveChoiceCount; i++)
         {
             PassiveCardData randomCard = CardDatabase.GetRandomPassive();
-            if(randomCard == null)
+            if (randomCard == null)
             {
                 break;
             }
+            CardDatabase.RemovePassive(randomCard);
+
             _passiveChoices.Add(randomCard);
             _model.OnAddPassiveEventInvoke(i);
         }

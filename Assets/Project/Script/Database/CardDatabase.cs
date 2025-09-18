@@ -19,9 +19,13 @@ public class CardDatabase : SingleTon<CardDatabase>
     public static PassiveCardData GetRandomPassive()
     {
         PassiveCardData card = Instance._passiveWeightTable.Pick();
-        Instance._passiveWeightTable.RemoveElement(card);
         return card;
     }
+    public static void RemovePassive(PassiveCardData data)
+    {
+        Instance._passiveWeightTable.RemoveElement(data);
+    }
+
     public static void ReturnPassive(PassiveCardData data)
     {
         Instance._passiveWeightTable.AddElement(data, data.Weight);

@@ -2880,6 +2880,8 @@ MonoBehaviour:
   _model:
     _activeCards: []
     _passiveCards: []
+    _maxActiveCardCount: 5
+  _test: {fileID: 11400000, guid: 1a645ecf7cdc5624781bfd37b3e8cad5, type: 2}
 --- !u!4 &198913930
 Transform:
   m_ObjectHideFlags: 0
@@ -34756,6 +34758,7 @@ MonoBehaviour:
   _passives:
   - {fileID: 11400000, guid: d91b9ce00c7130345869c0e971732843, type: 2}
   - {fileID: 11400000, guid: fab5878681b4add4586a561a192a4e33, type: 2}
+  - {fileID: 11400000, guid: 1a645ecf7cdc5624781bfd37b3e8cad5, type: 2}
   _actives:
   - {fileID: 11400000, guid: 8b67e449e0bf29142af8aa9906756e18, type: 2}
   - {fileID: 11400000, guid: 7fa4626955d9a9448a2e22f36ac59f81, type: 2}
@@ -38321,7 +38324,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _model:
     _currentTurn: 0
-    _maxTurn: 1
+    _maxTurn: 3
 --- !u!4 &2105889700
 Transform:
   m_ObjectHideFlags: 0

@@ -20,10 +20,12 @@ public class CardController : MonoBehaviour
 
     private List<ActiveCardStruct> _activeCards => _model.ActiveCards;
     private List<PassiveCardStruct> _passiveCards => _model.PassiveCards;
-
+    private int _maxActiveCardCount { get => _model.MaxActiveCardCount; set => _model.MaxActiveCardCount = value; }
 
     private RouletteController _roulette;
     private ChipController _chip;
+
+    [SerializeField] private PassiveCardData _test;
 
     private void Awake()
     {
@@ -47,7 +49,7 @@ public class CardController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.G))
         {
-            AddPassiveCard(CardDatabase.GetRandomPassive());
+            AddPassiveCard(_test);
         }
     }
 
@@ -62,6 +64,9 @@ public class CardController : MonoBehaviour
     // 액티브 카드 추가
     public void AddActiveCard(ActiveCardData activeCard)
     {
+        if (_activeCards.Count >= _maxActiveCardCount)
+            return;
+
         ActiveCardStruct newActive = new ActiveCardStruct
         {
             Data = activeCard,
@@ -70,6 +75,7 @@ public class CardController : MonoBehaviour
 
         newActive.Card.SetRoulette(_roulette);
         newActive.Card.SetChip(_chip);
+        newActive.Card.SetCardController(this);
 
         _activeCards.Add(newActive);
         _model.OnActiveCardChangedInvoke(_activeCards.Count - 1);
@@ -93,6 +99,8 @@ public class CardController : MonoBehaviour
     // 패시브 카드 추가
     public void AddPassiveCard(PassiveCardData passiveCard)
     {
+        CardDatabase.RemovePassive(passiveCard);
+
         PassiveCardStruct newPassive = new PassiveCardStruct
         {
             Data = passiveCard,
@@ -101,8 +109,9 @@ public class CardController : MonoBehaviour
 
         newPassive.Card.SetRoulette(_roulette);
         newPassive.Card.SetChip(_chip);
+        newPassive.Card.SetCardController(this);
 
-        _passiveCards.Add(newPassive);
+        _passiveCards.Add(newPassive);       
 
         _model.OnPassiveCardChangedInvoke(_passiveCards.Count - 1);
     }

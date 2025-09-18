@@ -51,6 +51,7 @@ public class GameFlowManager : MonoBehaviour
         _card.OnTurnStart();
         // ·ê·¿ Àç ¼¼ÆÃ
         _roulette.StartTurn();
+        _roulette.IsAlwaysWin = false;
     }
     private void SpinFlow()
     {
@@ -75,7 +76,6 @@ public class GameFlowManager : MonoBehaviour
         if(_roulette.IsAlwaysWin == true)
         {
             _chip.CollectChip(_roulette.BetMultiplier * _roulette.AlwaysWinMultiplier);
-            _roulette.IsAlwaysWin = false;
         }
         else
         {

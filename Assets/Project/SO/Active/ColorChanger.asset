@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4483eddc9fe5055429e2360705af5c62, type: 3}
   m_Name: ColorChanger
   m_EditorClassIdentifier: 
+  Weight: 1
   Name: "\uC0C9\uAE54 \uBC18\uC804"
-  Description: 
+  Description: "\uC120\uD0DD\uD55C \uC2AC\uB86F\uC758 \uC0C9\uC744 \uBC18\uC804\uD569\uB2C8\uB2E4"

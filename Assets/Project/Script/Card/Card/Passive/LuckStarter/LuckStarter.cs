@@ -19,7 +19,7 @@ public class LuckStarter : PassiveCard
         Apply();
     }
 
-    protected override void Apply()
+    protected override void ProcessApply()
     {
         _roulette.AddBetMultiplier(_data.ExtraMultiplier);
     }
