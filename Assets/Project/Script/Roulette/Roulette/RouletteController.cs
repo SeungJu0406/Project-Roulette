@@ -154,6 +154,18 @@ public class RouletteController : MonoBehaviour
             handler.SetRouletteController(this);
             handler.SetSlots(Slots);
         }
+        foreach (var slot in Slots)
+        {
+            slot.OnSlotInfoChanged += UpdateBetHandler;
+        }
+    }
+    private void UpdateBetHandler()
+    {
+        foreach (var handler in _betHandlers)
+        {
+            handler.ResetSlots();
+            handler.SetSlots(Slots);
+        }
     }
 
     private void InitRoulette()

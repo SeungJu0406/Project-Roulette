@@ -2,7 +2,13 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-public abstract class PointHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+public abstract class PointHandler : MonoBehaviour, 
+    IPointerEnterHandler, 
+    IPointerExitHandler, 
+    IPointerClickHandler, 
+    IPointerDownHandler, 
+    IPointerUpHandler,
+    IDragHandler
 {
 
     public void OnPointerClick(PointerEventData eventData)
@@ -19,8 +25,25 @@ public abstract class PointHandler : MonoBehaviour, IPointerEnterHandler, IPoint
     {
         OnPointExit(eventData);
     }
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        OnPointDown(eventData);
+    }
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        OnPointUp(eventData);
+    }
+    public void OnDrag(PointerEventData eventData)
+    {
+        OnPointDrag(eventData);
+    }
+    protected virtual void OnPointEnter(PointerEventData eventData) { }
+    protected virtual void OnPointExit(PointerEventData eventData) { }
+    protected virtual void OnPointClick(PointerEventData eventData) { }
 
-    protected abstract void OnPointEnter(PointerEventData eventData);
-    protected abstract void OnPointExit(PointerEventData eventData);
-    protected abstract void OnPointClick(PointerEventData eventData);
+    protected virtual void OnPointDown(PointerEventData eventData) { }
+    protected virtual void OnPointUp(PointerEventData eventData) { }
+    protected virtual void OnPointDrag(PointerEventData eventData) { }
+
+
 }

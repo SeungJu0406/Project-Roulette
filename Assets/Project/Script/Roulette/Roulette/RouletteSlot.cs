@@ -14,6 +14,8 @@ public class RouletteSlot : BaseUI
 
     public event UnityAction<RouletteSlot> OnProbabilityChanged;
 
+    public event UnityAction OnSlotInfoChanged;
+
     [SerializeField] private float _probability =1 ;
 
     private TMP_Text _numberText;
@@ -21,6 +23,7 @@ public class RouletteSlot : BaseUI
     private GameObject _red;
     private GameObject _outline;
 
+    private SlotBetHandler _betHandler;
 
     protected override void Awake()
     {
@@ -30,6 +33,7 @@ public class RouletteSlot : BaseUI
     }
     private void InitAwake()
     {
+        _betHandler = GetComponent<SlotBetHandler>();
         SetOutline(false);
     }
 
@@ -62,21 +66,26 @@ public class RouletteSlot : BaseUI
     public void InitNumber(int number)
     {
         Number = number;
+        _betHandler.SetNumber(number);
         _numberText.text = number.ToString();
+        OnSlotInfoChanged?.Invoke();
     }
     public void InitColor(SlotColorType color)
     {
         Color = color;
         _black.SetActive(color == SlotColorType.Black);
         _red.SetActive(color == SlotColorType.Red);
+        OnSlotInfoChanged?.Invoke();
     }
     public void InitHorizontal(int horizontalNumber)
     {
         HorizontalNum = horizontalNumber;
+        OnSlotInfoChanged?.Invoke();
     }
     public void InitVertical(int verticalNumber)
     {
         VerticalNum = verticalNumber;
+        OnSlotInfoChanged?.Invoke();
     }
 
     public void RevouleSlot()
@@ -87,5 +96,14 @@ public class RouletteSlot : BaseUI
     public void SetOutline(bool isActive)
     {
         _outline.SetActive(isActive);
+    }
+
+    protected override void OnPointEnter(PointerEventData eventData)
+    {
+     Manager.SlotPoint.SetSlot(this);   
+    }
+    protected override void OnPointExit(PointerEventData eventData)
+    {
+        Manager.SlotPoint.SetSlot(null);
     }
 }

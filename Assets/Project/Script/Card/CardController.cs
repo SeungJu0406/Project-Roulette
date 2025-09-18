@@ -23,6 +23,7 @@ public class CardController : MonoBehaviour
 
 
     [SerializeField] private PassiveCardData _test;
+    [SerializeField] private ActiveCardData _testActive;
 
     private RouletteController _roulette;
     private ChipController _chip;
@@ -33,6 +34,8 @@ public class CardController : MonoBehaviour
 
         _roulette = FindAnyObjectByType<RouletteController>();
         _chip = FindAnyObjectByType<ChipController>();
+
+        _model.OnUseCardEventReciever += UseActiveCard;
     }
 
     private void Start()
@@ -54,6 +57,11 @@ public class CardController : MonoBehaviour
             if (_passiveCards.Count > 0)
                 RemovePassiveCard(0);
         }
+
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            AddActiveCard(_testActive);
+        }
     }
 
     // method
@@ -71,17 +79,22 @@ public class CardController : MonoBehaviour
         newActive.Card.SetChip(_chip);
 
         _activeCards.Add(newActive);
+        _model.OnActiveCardChangedInvoke(_activeCards.Count - 1);
     }
     // 액티브 카드 사용
     public void UseActiveCard(int index)
     {
-        //_activeCards[index].Card.Use();
-        RemoveActiveCard(index);
+        bool applySuccess = _activeCards[index].Card.Apply();
+        if (applySuccess == true)
+        {
+            RemoveActiveCard(index);
+        }
     }
     // 액티브 카드 제거
     public void RemoveActiveCard(int index)
     {
         _activeCards.RemoveAt(index);
+        _model.OnActiveCardChangedInvoke(index);
     }
 
     // 패시브 카드 추가

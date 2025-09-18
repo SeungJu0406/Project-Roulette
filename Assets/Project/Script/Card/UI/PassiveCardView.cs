@@ -6,11 +6,11 @@ using UnityEngine.EventSystems;
 
 public class PassiveCardView : BaseView
 {
-    public PassiveCardData CardData;
+    public PassiveCardStruct CardData;
 
-    public event UnityAction<PassiveCardData> OnPointClickEvent;
-    public event UnityAction<PassiveCardData> OnPointEnterEvent;
-    public event UnityAction<PassiveCardData> OnPointExitEvent;
+    public event UnityAction<PassiveCardStruct> OnPointClickEvent;
+    public event UnityAction<PassiveCardStruct> OnPointEnterEvent;
+    public event UnityAction<PassiveCardStruct> OnPointExitEvent;
 
     protected override void InitAwake()
     {
@@ -43,7 +43,7 @@ public class PassiveCardView : BaseView
         OnPointExitEvent?.Invoke(CardData);
     }
 
-    public void SetCard(PassiveCardData data)
+    public void SetCard(PassiveCardStruct data)
     {
         CardData = data;
     }

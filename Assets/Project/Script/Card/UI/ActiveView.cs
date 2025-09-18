@@ -4,11 +4,11 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class PassiveView : BaseView<PassiveViewModel>
+public class ActiveView : BaseView<ActiveViewModel>
 {
-    private List<PassiveCardView> _cardViews = new List<PassiveCardView>();
+    private List<ActiveCardView> _cardViews = new List<ActiveCardView>();
 
-    [SerializeField] private PassiveCardView _cardViewPrefab;
+    [SerializeField] private ActiveCardView _cardViewPrefab;
 
     [SerializeField] private Vector2 _descriptionBoxOffset;
 
@@ -53,7 +53,7 @@ public class PassiveView : BaseView<PassiveViewModel>
 
     protected override void OnViewModelSet()
     {
-        Model.OnPassiveCardsUpdated += UpdatePassiveCards;
+        Model.OnActiveCardsUpdated += UpdatePassiveCards;
     }
 
     protected override void SubscribeEvents()
@@ -64,7 +64,7 @@ public class PassiveView : BaseView<PassiveViewModel>
     private void UpdatePassiveCards(int index)
     {
         // 실제 카드 개수와 뷰 카드 개수 비교
-        if (Model.PassiveCards.Count > _cardViews.Count)
+        if (Model.ActiveCards.Count > _cardViews.Count)
         {
             AddCard();
         }
@@ -76,61 +76,81 @@ public class PassiveView : BaseView<PassiveViewModel>
 
     private void AddCard()
     {
-        PassiveCardView newCard = Instantiate(_cardViewPrefab, _layout);
+        ActiveCardView newCard = Instantiate(_cardViewPrefab, _layout);
 
         // 설정
-        PassiveCardStruct passiveCardData = Model.PassiveCards[Model.PassiveCards.Count - 1];
+        ActiveCardStruct passiveCardData = Model.ActiveCards[Model.ActiveCards.Count - 1];
         newCard.SetCard(passiveCardData);
-
+        newCard.SetIndex(_cardViews.Count);
         newCard.OnPointEnterEvent += ShowDescription;
         newCard.OnPointExitEvent += HideDescription;
+        newCard.OnCardUsedEvent += UseCard;
         // 리스트에 추가
         _cardViews.Add(newCard);
     }
+
     private void RemoveCard(int index)
     {
-        PassiveCardView removeCard = _cardViews[index];
+        ActiveCardView removeCard = _cardViews[index];
         // 해제
         removeCard.OnPointEnterEvent -= ShowDescription;
         removeCard.OnPointExitEvent -= HideDescription;
+        removeCard.OnCardUsedEvent -= UseCard;
         // 삭제
         _cardViews.RemoveAt(index);
         Destroy(removeCard.gameObject);
+
+        // 인덱스 재설정
+        for (int i = index; i < _cardViews.Count; i++)
+        {
+            _cardViews[i].SetIndex(i);
+        }
     }
 
-    private void ShowDescription(PassiveCardStruct data)
+    private void ShowDescription(ActiveCardStruct data)
     {
-        PassiveCardData passiveCardData = data.Data;
+        ActiveCardData activeCardData = data.Data;
 
         _descriptionBox.SetActive(true);
-        _name.text = passiveCardData.Name;
-        _description.text = passiveCardData.Description;
+        _name.text = activeCardData.Name;
+        _description.text = activeCardData.Description;
     }
-    private void HideDescription(PassiveCardStruct data)
+    private void HideDescription(ActiveCardStruct data)
     {
         _descriptionBox.SetActive(false);
     }
+
+    private void UseCard(int index)
+    {
+        Model.UseCard(index);
+    }
+
 }
-
-public class PassiveViewModel : BaseViewModel<CardControllerModel>
+public class ActiveViewModel : BaseViewModel<CardControllerModel>
 {
-    public List<PassiveCardStruct> PassiveCards;
+    public List<ActiveCardStruct> ActiveCards;
 
-    public event UnityAction<int> OnPassiveCardsUpdated;
+    public event UnityAction<int> OnActiveCardsUpdated;
+
+    public void UseCard(int index)
+    {
+        Model.ReceiveUseCardEvent(index);
+    }
+
     protected override void OnModelRemove()
     {
-        Model.OnPassiveCardsChanged -= UpdatePassiveCards;
+        Model.OnActiveCardsChanged -= UpdatePassiveCards;
     }
 
     protected override void OnModelSet()
     {
-        PassiveCards = Model.PassiveCards;
+        ActiveCards = Model.ActiveCards;
 
-        Model.OnPassiveCardsChanged += UpdatePassiveCards;
+        Model.OnActiveCardsChanged += UpdatePassiveCards;
     }
 
     private void UpdatePassiveCards(int index)
     {
-        OnPassiveCardsUpdated?.Invoke(index);
+        OnActiveCardsUpdated?.Invoke(index);
     }
 }
