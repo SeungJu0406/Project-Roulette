@@ -1,4 +1,5 @@
 using NSJ_MVVM;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -15,6 +16,8 @@ public class ActiveCardView : BaseView
 
     public event UnityAction<int> OnCardUsedEvent;
 
+    private GameObject _multiplePointer;
+
     protected override void InitAwake()
     {
 
@@ -22,12 +25,19 @@ public class ActiveCardView : BaseView
 
     protected override void InitGetUI()
     {
-
+        _multiplePointer = GetUI("MultiplePointer");
     }
 
     protected override void InitStart()
     {
+        _multiplePointer.SetActive(false);
+    }
 
+    private void Update()
+    {
+        // 마우스 위치 따라오기
+        if(CardData.Card.CanMultipleChoice)
+            _multiplePointer.transform.position = Input.mousePosition;
     }
 
     protected override void SubscribeEvents()
@@ -37,16 +47,28 @@ public class ActiveCardView : BaseView
 
     protected override void OnPointUp(PointerEventData eventData)
     {
-        OnCardUsedEvent?.Invoke(_index);
+        StartCoroutine(PointUpRoutine());
     }
 
-
+    IEnumerator PointUpRoutine()
+    {
+        _multiplePointer.SetActive(false);
+        yield return null;
+        OnCardUsedEvent?.Invoke(_index);
+        _multiplePointer.SetActive(CardData.Card.CanMultipleChoice == true);
+    }
     protected override void OnPointEnter(PointerEventData eventData)
     {
+        if (eventData.pointerEnter.gameObject == _multiplePointer)
+            return;
+
         OnPointEnterEvent?.Invoke(CardData);
     }
     protected override void OnPointExit(PointerEventData eventData)
     {
+        if (eventData.pointerEnter.gameObject == _multiplePointer)
+            return;
+
         OnPointExitEvent?.Invoke(CardData);
     }
 

@@ -9,8 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4483eddc9fe5055429e2360705af5c62, type: 3}
-  m_Name: ColorChanger
+  m_Script: {fileID: 11500000, guid: 1dfc16c1154f38449b2353fc5c425df6, type: 3}
+  m_Name: ProbabilityChanger
   m_EditorClassIdentifier: 
-  Name: "\uC0C9\uAE54 \uBC18\uC804"
+  Name: "\uD655\uB960 \uC870\uC791"
   Description: 
+  ProbabilityChangeRate: 20

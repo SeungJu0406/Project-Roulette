@@ -76,10 +76,10 @@ public class ActiveView : BaseView<ActiveViewModel>
 
     private void AddCard()
     {
-        ActiveCardView newCard = Instantiate(_cardViewPrefab, _layout);
-
         // ¼³Á¤
         ActiveCardStruct passiveCardData = Model.ActiveCards[Model.ActiveCards.Count - 1];
+
+        ActiveCardView newCard = Instantiate(_cardViewPrefab, _layout);
         newCard.SetCard(passiveCardData);
         newCard.SetIndex(_cardViews.Count);
         newCard.OnPointEnterEvent += ShowDescription;

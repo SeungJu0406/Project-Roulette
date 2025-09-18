@@ -1,17 +1,17 @@
 using UnityEngine;
+using UnityEngine.Events;
 
-public class SlotPointManager : MonoBehaviour
+public class PointManager : MonoBehaviour
 {
     [SerializeField]private RouletteSlot _slot;
-    [SerializeField]private RouletteBetController _betSpot;
-
+    private RouletteBetController _betSpot;
     private void Awake()
     {
-        Manager.SetSlotPointManager(this);
+        Manager.SetPointManager(this);
     }
     private void OnDestroy()
     {
-        Manager.SetSlotPointManager(null);
+        Manager.SetPointManager(null);
     }
 
     public void SetBetSpot(RouletteBetController betSpot)
@@ -30,4 +30,5 @@ public class SlotPointManager : MonoBehaviour
     {
         return _slot;
     }
+
 }

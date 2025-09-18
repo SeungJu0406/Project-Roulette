@@ -39,14 +39,6 @@ public class RouletteController : MonoBehaviour
         SubscribeEvent();
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Slots[0].AddProbability(10f);
-        }
-    }
-
     public void SetCurBetHandelr(RouletteBetController handler)
     {
         BetMultiplier /= _currentBetHandler == null ? 1f : _currentBetHandler.BetMultiplier;
@@ -195,6 +187,8 @@ public class RouletteController : MonoBehaviour
             if (s == slot)
                 continue;
             s.Probability -= decreaseProbability;
+            if (s.Probability < 0)
+                s.Probability = 0;
         }
         _weightTable = new WeightTable<RouletteSlot>();
         foreach (var s in Slots)

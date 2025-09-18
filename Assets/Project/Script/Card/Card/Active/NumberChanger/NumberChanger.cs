@@ -10,7 +10,7 @@ public class NumberChanger : ActiveCard
 
     public override bool Apply()
     {
-        RouletteSlot slot = Manager.SlotPoint.GetSlot();
+        RouletteSlot slot = Manager.Point.GetSlot();
         // slot Á¤º¸ È¹µæ
         if (slot == null)
             return false;

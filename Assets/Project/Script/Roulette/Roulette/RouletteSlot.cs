@@ -91,7 +91,16 @@ public class RouletteSlot : BaseUI
     public void AddProbability(float probability)
     {
         Probability += probability;
-        OnProbabilityChanged?.Invoke(this, probability);
+
+        float changeValue = probability;
+        if (Probability > 100)
+        {
+            changeValue = 100 - (Probability - probability);
+            Probability = 100;
+        }
+        
+
+        OnProbabilityChanged?.Invoke(this, changeValue);
     }
 
     public void RevouleSlot()
@@ -106,10 +115,10 @@ public class RouletteSlot : BaseUI
 
     protected override void OnPointEnter(PointerEventData eventData)
     {
-        Manager.SlotPoint.SetSlot(this);
+        Manager.Point.SetSlot(this);
     }
     protected override void OnPointExit(PointerEventData eventData)
     {
-        Manager.SlotPoint.SetSlot(null);
+        Manager.Point.SetSlot(null);
     }
 }

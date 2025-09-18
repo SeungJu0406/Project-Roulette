@@ -35,11 +35,11 @@ public abstract class RouletteBetController : PointHandler
     }
     protected override void OnPointEnter(PointerEventData eventData)
     {
-        Manager.SlotPoint.SetBetSpot(this);
+        Manager.Point.SetBetSpot(this);
     }
     protected override void OnPointExit(PointerEventData eventData)
     {
-        Manager.SlotPoint.SetBetSpot(null);
+        Manager.Point.SetBetSpot(null);
     }
     public void ResetSlots()
     {

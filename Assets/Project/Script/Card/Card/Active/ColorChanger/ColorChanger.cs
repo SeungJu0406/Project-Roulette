@@ -8,7 +8,7 @@ public class ColorChanger : ActiveCard
 
     public override bool Apply()
     {
-        RouletteSlot slot = Manager.SlotPoint.GetSlot();
+        RouletteSlot slot = Manager.Point.GetSlot();
         if (slot == null) return false;
 
         SlotColorType color = slot.Color;
