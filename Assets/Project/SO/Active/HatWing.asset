@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 012e1912950433a4fb3d0ccfbbd3b486, type: 3}
+  m_Name: HatWing
+  m_EditorClassIdentifier: 
+  Name: Wing
+  Description: "\uC774\uBC88 \uD134\uC740 \uB2F9\uCCA8\uB418\uC9C0 \uC54A\uC544\uB3C4
+    \uB2F9\uCCA8\uB41C \uAC83\uC73C\uB85C \uCC98\uB9AC\n\uBCF4\uC0C1\uC740 50%\uB9CC
+    \uC9C0\uAE09"
+  BenefitValue: 0.5

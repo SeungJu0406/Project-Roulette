@@ -2664,8 +2664,8 @@ MonoBehaviour:
   _model:
     _activeCards: []
     _passiveCards: []
-  _test: {fileID: 11400000, guid: d91b9ce00c7130345869c0e971732843, type: 2}
-  _testActive: {fileID: 11400000, guid: 7fa4626955d9a9448a2e22f36ac59f81, type: 2}
+  _test: {fileID: 11400000, guid: fab5878681b4add4586a561a192a4e33, type: 2}
+  _testActive: {fileID: 11400000, guid: 224d00209313adf4ab1bf914682da36a, type: 2}
 --- !u!4 &198913930
 Transform:
   m_ObjectHideFlags: 0
@@ -10117,6 +10117,8 @@ MonoBehaviour:
     _maxHorizontalNum: 12
   _spinDuration: 3
   _spenSpeedPerSecond: 5
+  IsAlwaysWin: 1
+  AlwaysWinMultiplier: 0.5
 --- !u!4 &726216464
 Transform:
   m_ObjectHideFlags: 0

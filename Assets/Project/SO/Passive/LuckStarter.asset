@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d567980772f79394d8da66a85337ee59, type: 3}
   m_Name: LuckStarter
   m_EditorClassIdentifier: 
-  Name: 
-  Description: 
+  Name: "\uC0B0\uB73B\uD55C \uCD9C\uBC1C"
+  Description: "\uB77C\uC6B4\uB4DC\uC5D0\uC11C \uCCAB \uBC88\uC9F8 \uCE69\uC774 \uB2F9\uCCA8\uB418\uBA74
+    \uBC30\uB2F9\uB960 1.5"
   ExtraMultiplier: 1.5

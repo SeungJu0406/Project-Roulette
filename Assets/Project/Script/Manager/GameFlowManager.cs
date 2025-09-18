@@ -69,8 +69,18 @@ public class GameFlowManager : MonoBehaviour
     {
         // 카드 적용
         _card.OnLose();
-        // 칩 손실
-        _chip.LoseChip();
+
+        if(_roulette.IsAlwaysWin == true)
+        {
+            _chip.CollectChip(_roulette.BetMultiplier * _roulette.AlwaysWinMultiplier);
+            _roulette.IsAlwaysWin = false;
+        }
+        else
+        {
+            // 칩 손실
+            _chip.LoseChip();
+        }
+
     }
     private void EndTurnFlow()
     {

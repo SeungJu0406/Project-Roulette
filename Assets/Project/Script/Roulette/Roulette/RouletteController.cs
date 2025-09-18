@@ -17,6 +17,10 @@ public class RouletteController : MonoBehaviour
     [SerializeField] private float _spenSpeedPerSecond = 5f;
 
     public float BetMultiplier { get => _model.BetMultiplier; set { _model.BetMultiplier = value; } }
+     
+    // 당첨 안되도 당첨 처리 옵션(배당금 절반)
+    [HideInInspector]public bool IsAlwaysWin = false;
+    [HideInInspector] public float AlwaysWinMultiplier = 0.5f;
 
     private List<RouletteSlot> _betSlots;
     private RouletteBetController _currentBetHandler;
@@ -27,6 +31,7 @@ public class RouletteController : MonoBehaviour
 
     private void Awake()
     {
+        IsAlwaysWin = false;
 
         _betHandlers = GetComponentsInChildren<RouletteBetController>(true);
         _model.InitModel(this);
