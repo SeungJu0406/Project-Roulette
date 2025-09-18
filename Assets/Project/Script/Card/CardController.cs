@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.ComponentModel;
 using UnityEngine;
 
 [System.Serializable]
@@ -17,8 +16,10 @@ public struct PassiveCardStruct
 public class CardController : MonoBehaviour
 {
     // field
-    [SerializeField] private List<ActiveCardStruct> _activeCards;
-    [SerializeField] private List<PassiveCardStruct> _passiveCards;
+    [SerializeField] private CardControllerModel _model;
+
+    private List<ActiveCardStruct> _activeCards => _model.ActiveCards;
+    private List<PassiveCardStruct> _passiveCards => _model.PassiveCards;
 
 
     [SerializeField] private PassiveCardData _test;
@@ -28,6 +29,8 @@ public class CardController : MonoBehaviour
 
     private void Awake()
     {
+        _model.InitModel(this);
+
         _roulette = FindAnyObjectByType<RouletteController>();
         _chip = FindAnyObjectByType<ChipController>();
     }
@@ -45,6 +48,11 @@ public class CardController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.T))
         {
             AddPassiveCard(_test);
+        }
+        if (Input.GetKeyDown(KeyCode.Y))
+        {
+            if (_passiveCards.Count > 0)
+                RemovePassiveCard(0);
         }
     }
 
@@ -89,11 +97,14 @@ public class CardController : MonoBehaviour
         newPassive.Card.SetChip(_chip);
 
         _passiveCards.Add(newPassive);
+
+        _model.OnPassiveCardChangedInvoke(_passiveCards.Count - 1);
     }
     // 패시브 카드 제거
     public void RemovePassiveCard(int index)
     {
         _passiveCards.RemoveAt(index);
+        _model.OnPassiveCardChangedInvoke(index);
     }
 
     public void OnSpin()
@@ -132,4 +143,3 @@ public class CardController : MonoBehaviour
         }
     }
 }
-    

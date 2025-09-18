@@ -5,11 +5,8 @@ public class GameFlowManager : MonoBehaviour
     private RouletteController _roulette;
     private ChipController _chip;
     private CardController _card;
+    private TurnController _turn;
 
-
-    // TODO: 테스트용 턴 횟수, 구조분리 필요
-
-    private int _turnCount = 0;
     private void Awake()
     {
         Manager.SetGameFlowManager(this);
@@ -17,21 +14,22 @@ public class GameFlowManager : MonoBehaviour
         _roulette = FindAnyObjectByType<RouletteController>();
         _chip = FindAnyObjectByType<ChipController>();
         _card = FindAnyObjectByType<CardController>();
+        _turn = FindAnyObjectByType<TurnController>();
     }
 
     private void Start()
     {
-        Manager.Turn.OnTurnStartEvent += StartTurnFlow;
-        Manager.Turn.OnTurnEndEvent += EndTurnFlow;
-        Manager.Turn.OnSpinEvent += SpinFlow;
-        Manager.Turn.OnWinEvent += WinFlow;
-        Manager.Turn.OnLoseEvent += LoseFlow;
-        Manager.Turn.OnRoundStartEvent += StartRoundFlow;
-        Manager.Turn.OnRoundEndEvent += EndRoundFlow;
-        Manager.Turn.OnShopStartEvent += StartShopFlow;
-        Manager.Turn.OnShopEndEvent += EndShopFlow;
+        Manager.Event.OnTurnStartEvent += StartTurnFlow;
+        Manager.Event.OnTurnEndEvent += EndTurnFlow;
+        Manager.Event.OnSpinEvent += SpinFlow;
+        Manager.Event.OnWinEvent += WinFlow;
+        Manager.Event.OnLoseEvent += LoseFlow;
+        Manager.Event.OnRoundStartEvent += StartRoundFlow;
+        Manager.Event.OnRoundEndEvent += EndRoundFlow;
+        Manager.Event.OnShopStartEvent += StartShopFlow;
+        Manager.Event.OnShopEndEvent += EndShopFlow;
 
-        Manager.Turn.RoundStartInvoke();
+        Manager.Event.RoundStartInvoke();
     }
     private void OnDestroy()
     {
@@ -40,13 +38,13 @@ public class GameFlowManager : MonoBehaviour
 
     private void StartTurnFlow()
     {
-        if (_turnCount >= 3)
+        if (_turn.CurrentTurn >= _turn.MaxTurn)
         {
-            Manager.Turn.RoundEndInvoke();
+            Manager.Event.RoundEndInvoke();
             return;
         }
 
-        _turnCount++;
+        _turn.CurrentTurn++;
         // 카드 적용
         _card.OnTurnStart();
         // 룰렛 재 세팅
@@ -82,7 +80,7 @@ public class GameFlowManager : MonoBehaviour
         _roulette.ClearBet();
 
         //TODO: 일단 바로 시작, 나중에 UI 대기시간 줄 것
-        Manager.Turn.StartTurnInvoke();
+        Manager.Event.StartTurnInvoke();
     }
 
     private void StartRoundFlow()
@@ -92,7 +90,7 @@ public class GameFlowManager : MonoBehaviour
         // 초기 칩 지급
 
         // 턴 횟수 초기화
-        _turnCount = 0;
+        _turn.CurrentTurn = 0;
     }
     private void EndRoundFlow()
     {

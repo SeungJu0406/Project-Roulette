@@ -35,7 +35,7 @@ public class RouletteSlot : BaseUI
 
     private void Start()
     {
-        Manager.Turn.OnTurnEndEvent += () => SetOutline(false);
+        Manager.Event.OnTurnEndEvent += () => SetOutline(false);
     }
 
 

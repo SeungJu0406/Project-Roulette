@@ -29,7 +29,7 @@ public class RouletteController : MonoBehaviour
     {
 
         _betHandlers = GetComponentsInChildren<RouletteBetController>(true);
-        _model.InitModel();
+        _model.InitModel(this);
     }
 
     private void Start()
@@ -66,7 +66,7 @@ public class RouletteController : MonoBehaviour
         if(_betSlots.Count == 0)
             return;
 
-        Manager.Turn.SpinInvoke();
+        Manager.Event.SpinInvoke();
     }
 
     public void Spin()
@@ -128,12 +128,12 @@ public class RouletteController : MonoBehaviour
 
     private void OnWin()
     {
-        Manager.Turn.WinInvoke();
+        Manager.Event.WinInvoke();
     }
 
     private void OnLose()
     {
-        Manager.Turn.LoseInvoke();
+        Manager.Event.LoseInvoke();
     }
 
     public void StartTurn()
@@ -178,7 +178,7 @@ public class RouletteController : MonoBehaviour
 
     private void SubscribeEvent()
     {
-        Manager.Turn.OnCommandSpinEvent += CheckCanSpin;
+        Manager.Event.OnCommandSpinEvent += CheckCanSpin;
     }
 
     [ContextMenu("CreateRoulette")]

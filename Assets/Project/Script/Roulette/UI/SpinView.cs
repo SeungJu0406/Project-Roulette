@@ -27,6 +27,6 @@ public class SpinView : BaseView
 
     private void OnClickSpinButton()
     {
-       Manager.Turn.CommandSpinInvoke();
+       Manager.Event.CommandSpinInvoke();
     }
 }

@@ -11,7 +11,7 @@ namespace NSJ_MVVM
             where TModel : BaseModel
         {
             // 모델을 초기화합니다.
-            model.InitModel();
+           // model.InitModel();
             return model;
         }
 

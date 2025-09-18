@@ -11,7 +11,7 @@ public class ChipController : MonoBehaviour
     private void Awake()
     {
 
-        _model.InitModel();
+        _model.InitModel(this);
 
         _model.OnBetReceiver += BetChip;
     }
@@ -62,7 +62,7 @@ public class ChipController : MonoBehaviour
 
         // TODO : 임시 턴 종료 타이밍
         yield return 1f.Second();
-        Manager.Turn.EndTurnInvoke();
+        Manager.Event.EndTurnInvoke();
     }
     IEnumerator LoseChipRoutine()
     {
@@ -76,6 +76,6 @@ public class ChipController : MonoBehaviour
 
         // TODO : 임시 턴 종료 타이밍
         yield return 1f.Second();
-        Manager.Turn.EndTurnInvoke();
+        Manager.Event.EndTurnInvoke();
     }
 }

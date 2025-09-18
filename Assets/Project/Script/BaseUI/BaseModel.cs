@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace NSJ_MVVM
@@ -12,8 +13,10 @@ namespace NSJ_MVVM
         /// <summary>
         /// 모델을 초기화하는 메서드입니다.
         /// </summary>
-        public void InitModel()
+        public void InitModel(MonoBehaviour behaviour)
         {
+            BaseModelTracker tracker = behaviour.GetOrAddComponent<BaseModelTracker>();
+            tracker.SetModel(this);
             Awake();
         }
         public void InitStart()

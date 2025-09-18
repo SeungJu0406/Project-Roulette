@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cceb02a50247a446be4b0aa6aa5e89a, type: 3}
   m_Name: AllInWrath
   m_EditorClassIdentifier: 
-  Name: 
-  Description: 
+  Name: "\uC62C\uC778"
+  Description: "\uBC30\uB2F9\uD560 \uCE69\uC774 \uD558\uB098\uB3C4 \uB0A8\uC544\uC788\uC9C0
+    \uC54A\uC744 \uB54C x5 "
   ExtraBetMultiplier: 5

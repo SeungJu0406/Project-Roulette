@@ -27,7 +27,7 @@ public class RoundStartView : BaseView
     }
     private void OnStartButtonClicked()
     {
-        Manager.Turn.StartTurnInvoke();
+        Manager.Event.StartTurnInvoke();
         Canvas.ChangePanel(InGameCanvas.Panel.HUD);
     }
 }

@@ -21,9 +21,9 @@ public abstract class RouletteBetController : PointHandler
     }
     private void Start()
     {
-        Manager.Turn.OnTurnEndEvent += EndTurn;
-        Manager.Turn.OnSpinEvent += OnSpin;
-        Manager.Turn.OnTurnStartEvent += StartTurn;
+        Manager.Event.OnTurnEndEvent += EndTurn;
+        Manager.Event.OnSpinEvent += OnSpin;
+        Manager.Event.OnTurnStartEvent += StartTurn;
     }
 
     protected override void OnPointClick(PointerEventData eventData)

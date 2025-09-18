@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace NSJ_MVVM
 {
-    public class BaseUI : MonoBehaviour
+    public class BaseUI : PointHandler
     {
         private Dictionary<string, GameObject> gameObjectDic;
         private Dictionary<(string, System.Type), Component> componentDic;
@@ -91,5 +92,11 @@ namespace NSJ_MVVM
             componentDic.TryAdd(key, component);
             return component as T;
         }
+
+        protected override void OnPointEnter(PointerEventData eventData) { }
+
+        protected override void OnPointExit(PointerEventData eventData) { }
+
+        protected override void OnPointClick(PointerEventData eventData) { }
     }
 }

@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using Utility;
 
-public class TurnManager : MonoBehaviour
+public class EventManager : MonoBehaviour
 {
 
     public event UnityAction OnTurnStartEvent;
@@ -18,11 +18,11 @@ public class TurnManager : MonoBehaviour
 
     private void Awake()
     {
-        Manager.SetTurnManager(this);
+        Manager.SetEventManager(this);
     }
     private void OnDestroy()
     {
-        Manager.SetTurnManager(null);
+        Manager.SetEventManager(null);
     }
 
     public void EndTurnInvoke()

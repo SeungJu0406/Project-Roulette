@@ -27,6 +27,6 @@ public class ShopView : BaseView
 
     private void OnClickNextRoundButton()
     {
-        Manager.Turn.RoundStartInvoke();
+        Manager.Event.RoundStartInvoke();
     }
 }

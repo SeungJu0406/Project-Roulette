@@ -30,6 +30,6 @@ public class RoundEndView : BaseView
     }
     private void OnClickNextRoundButton()
     {
-        Manager.Turn.ShopStartInvoke();
+        Manager.Event.ShopStartInvoke();
     }
 }
