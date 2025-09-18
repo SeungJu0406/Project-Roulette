@@ -7,12 +7,13 @@ using UnityEngine.EventSystems;
 public class RouletteSlot : BaseUI
 {
     public float Probability { get => _probability; set { _probability = value; } }
+    public bool IsProbabilityChanged { get; set; }
     public int Number;
     public SlotColorType Color;
     public int HorizontalNum;
     public int VerticalNum;
 
-    public event UnityAction<RouletteSlot, float> OnProbabilityChanged;
+    public event UnityAction OnProbabilityChanged;
 
     public event UnityAction OnSlotInfoChanged;
 
@@ -88,19 +89,17 @@ public class RouletteSlot : BaseUI
         OnSlotInfoChanged?.Invoke();
     }
 
-    public void AddProbability(float probability)
+    public void SetProbability(float probability)
     {
-        Probability += probability;
+        Probability = probability;
 
-        float changeValue = probability;
         if (Probability > 100)
         {
-            changeValue = 100 - (Probability - probability);
             Probability = 100;
         }
-        
+        IsProbabilityChanged = true;
 
-        OnProbabilityChanged?.Invoke(this, changeValue);
+        OnProbabilityChanged?.Invoke();
     }
 
     public void RevouleSlot()

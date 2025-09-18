@@ -3,7 +3,10 @@ using UnityEngine.Events;
 
 public class PointManager : MonoBehaviour
 {
-    [SerializeField]private RouletteSlot _slot;
+    public event UnityAction<RouletteSlot> OnSetSlotEvent;
+    public event UnityAction<RouletteBetController> OnSetBetSpotEvent;
+
+    private RouletteSlot _slot;
     private RouletteBetController _betSpot;
     private void Awake()
     {
@@ -17,6 +20,7 @@ public class PointManager : MonoBehaviour
     public void SetBetSpot(RouletteBetController betSpot)
     {
         _betSpot = betSpot;
+        OnSetBetSpotEvent?.Invoke(betSpot);
     }
     public RouletteBetController GetBetSpot()
     {
@@ -25,6 +29,7 @@ public class PointManager : MonoBehaviour
     public void SetSlot(RouletteSlot slot)
     {
         _slot = slot;
+        OnSetSlotEvent?.Invoke(slot);
     }
     public RouletteSlot GetSlot()
     {

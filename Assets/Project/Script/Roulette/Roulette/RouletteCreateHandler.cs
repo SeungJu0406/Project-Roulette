@@ -77,7 +77,7 @@ public class RouletteCreateHandler
             _slots[i].Initialize(number, color, verticalNum, HorizontalNum);
 
             float probability = 100f / 36f;
-            _slots[i].AddProbability(probability);
+            _slots[i].SetProbability(probability);
 
             // 슬롯 입력 컨트롤러 설정
             SlotBetHandler slotInputController = _slots[i].GetComponent<SlotBetHandler>();

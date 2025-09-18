@@ -26,6 +26,7 @@ public class CardController : MonoBehaviour
     private ChipController _chip;
 
     [SerializeField] private PassiveCardData _test;
+    [SerializeField] private ActiveCardData _testActive;
 
     private void Awake()
     {
@@ -50,6 +51,10 @@ public class CardController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.G))
         {
             AddPassiveCard(_test);
+        }
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            AddActiveCard(_testActive);
         }
     }
 

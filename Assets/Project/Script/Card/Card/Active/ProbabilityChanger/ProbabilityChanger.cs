@@ -13,7 +13,8 @@ public class ProbabilityChanger : ActiveCard
         RouletteSlot slot = Manager.Point.GetSlot();
         if(slot == null) return false;
 
-        slot.AddProbability(_data.ProbabilityChangeRate);
+        float newProbability = slot.Probability + _data.ProbabilityChangeRate;
+        slot.SetProbability(newProbability);
         return true;
     }
 }

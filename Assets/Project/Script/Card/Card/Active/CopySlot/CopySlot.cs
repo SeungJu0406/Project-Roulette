@@ -47,10 +47,11 @@ public class CopySlot : ActiveCard
             _second = current;
         }
 
+        _first.IsProbabilityChanged = true;
+
         _second.SetNumber(First.Number);
         _second.SetColor(First.Color);
-        _second.AddProbability(-_second.Probability);
-        _second.AddProbability(First.Probability);
+        _second.SetProbability(First.Probability);
         return true;
     }
 }

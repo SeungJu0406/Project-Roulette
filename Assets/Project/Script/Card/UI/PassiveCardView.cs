@@ -59,6 +59,9 @@ public class PassiveCardView : BaseView
 
     public void ShowApplyDisplay()
     {
+        if (_applyImage.activeSelf)
+            return;
+
         StartCoroutine(DisplayApplyRoutine());
     }
 

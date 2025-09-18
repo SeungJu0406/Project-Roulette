@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 using Utility;
 using WeightUtility;
 
@@ -17,9 +16,9 @@ public class RouletteController : MonoBehaviour
     [SerializeField] private float _spenSpeedPerSecond = 5f;
 
     public float BetMultiplier { get => _model.BetMultiplier; set { _model.BetMultiplier = value; } }
-     
+
     // 당첨 안되도 당첨 처리 옵션(배당금 절반)
-    [HideInInspector]public bool IsAlwaysWin = false;
+    [HideInInspector] public bool IsAlwaysWin = false;
     [HideInInspector] public float AlwaysWinMultiplier = 0.5f;
 
     private List<RouletteSlot> _betSlots;
@@ -68,7 +67,7 @@ public class RouletteController : MonoBehaviour
             return;
         if (_currentBetHandler == null)
             return;
-        if(_betSlots.Count == 0)
+        if (_betSlots.Count == 0)
             return;
 
         Manager.Event.SpinInvoke();
@@ -184,21 +183,61 @@ public class RouletteController : MonoBehaviour
         }
     }
 
-    private void EditSlotProbability(RouletteSlot slot, float changeValue)
+    /// <summary>
+    /// 확률 변경 
+    /// </summary>
+    private void EditSlotProbability()
     {
-        float decreaseProbability = changeValue / (Slots.Length - 1);
+        // 확률 변경시 100% 맞추기
+        int changedCount = 0;
+        float totalProbability = 0;
         foreach (var s in Slots)
         {
-            if (s == slot)
+            if (s.IsProbabilityChanged)
+            {
+                changedCount++;
+            }
+            totalProbability += s.Probability;
+        }
+        float extraValue = totalProbability - 100f;
+        float decreaseProbability = extraValue / ((Slots.Length - 1) - changedCount);
+        // 100% 미만시 변경 안된 슬롯 기준으로 나머지 슬롯 확률 감소
+        foreach (var s in Slots)
+        {
+            if (s.IsProbabilityChanged)
                 continue;
             s.Probability -= decreaseProbability;
             if (s.Probability < 0)
                 s.Probability = 0;
         }
+
+
+        // 100% 초과시 변경된 슬롯 기준으로 나머지 슬롯 확률 감소
+        float newTotal = 0;
+        foreach (var s in Slots)
+        {
+            newTotal += s.Probability;
+        }
+        if (newTotal > 100f)
+        {
+            float diff = newTotal - 100f;
+            float reducePerSlot = diff / changedCount;
+            foreach (var s in Slots)
+            {
+                if (s.IsProbabilityChanged == false)
+                    continue;
+                s.Probability -= reducePerSlot;
+                if (s.Probability < 0)
+                    s.Probability = 0;
+            }
+        }
+
+        // 확률 테이블 갱신
         _weightTable = new WeightTable<RouletteSlot>();
         foreach (var s in Slots)
         {
             _weightTable.AddElement(s, s.Probability);
+            s.IsProbabilityChanged = false;
         }
     }
     /// <summary>
