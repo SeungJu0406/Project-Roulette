@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 [System.Serializable]
 public struct ActiveCardStruct
@@ -15,6 +16,8 @@ public struct PassiveCardStruct
 }
 public class CardController : MonoBehaviour
 {
+    public event UnityAction<ActiveCardStruct> OnUseActiveCardEvent;
+
     // field
     [SerializeField] private CardControllerModel _model;
 
@@ -91,6 +94,7 @@ public class CardController : MonoBehaviour
         bool applySuccess = _activeCards[index].Card.Apply();
         if (applySuccess == true)
         {
+            OnUseActiveCardEvent?.Invoke(_activeCards[index]);
             RemoveActiveCard(index);
         }
     }

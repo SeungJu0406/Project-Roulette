@@ -1,7 +1,10 @@
+using System.ComponentModel;
 using UnityEngine;
 
 public class GameFlowManager : MonoBehaviour
 {
+    [SerializeField] private int _startCardCount = 3;
+
     private RouletteController _roulette;
     private ChipController _chip;
     private CardController _card;
@@ -10,7 +13,6 @@ public class GameFlowManager : MonoBehaviour
 
     private void Awake()
     {
-        Manager.SetGameFlowManager(this);
 
         _roulette = FindAnyObjectByType<RouletteController>();
         _chip = FindAnyObjectByType<ChipController>();
@@ -31,14 +33,30 @@ public class GameFlowManager : MonoBehaviour
         Manager.Event.OnShopStartEvent += StartShopFlow;
         Manager.Event.OnShopEndEvent += EndShopFlow;
 
+        StartGame();
+    }
+    protected virtual  void StartGame()
+    {
         Manager.Event.RoundStartInvoke();
     }
-    private void OnDestroy()
+
+    protected virtual void StartRoundFlow()
     {
-        Manager.SetGameFlowManager(null);
+        // 라운드 시작 UI 띄우기
+        UIManager.ChangePanel(InGameCanvas.Panel.RoundStart);
+        // 초기 칩 지급
+        _chip.HoldChip = _chip.StartChip;
+        // 초기 액티브 카드 지급
+        for (int i = 0; i < _startCardCount; i++)
+        {
+            _card.AddRandomActiveCard();
+        }
+
+        // 턴 횟수 초기화
+        _turn.CurrentTurn = 0;
     }
 
-    private void StartTurnFlow()
+    protected virtual void StartTurnFlow()
     {
         if (_turn.CurrentTurn >= _turn.MaxTurn)
         {
@@ -53,7 +71,7 @@ public class GameFlowManager : MonoBehaviour
         _roulette.StartTurn();
         _roulette.IsAlwaysWin = false;
     }
-    private void SpinFlow()
+    protected virtual void SpinFlow()
     {
         // 카드 적용
         _card.OnSpin();
@@ -61,14 +79,14 @@ public class GameFlowManager : MonoBehaviour
         _roulette.Spin();
     }
 
-    private void WinFlow()
+    protected virtual void WinFlow()
     {
         // 카드 적용
         _card.OnWin();
         // 칩 수집
         _chip.CollectChip(_roulette.BetMultiplier);
     }
-    private void LoseFlow()
+    protected virtual void LoseFlow()
     {
         // 카드 적용
         _card.OnLose();
@@ -84,7 +102,7 @@ public class GameFlowManager : MonoBehaviour
         }
 
     }
-    private void EndTurnFlow()
+    protected virtual void EndTurnFlow()
     {
         // 카드 적용
         _card.OnTurnEnd();
@@ -95,27 +113,13 @@ public class GameFlowManager : MonoBehaviour
         Manager.Event.StartTurnInvoke();
     }
 
-    private void StartRoundFlow()
-    {
-        // 라운드 시작 UI 띄우기
-        UIManager.ChangePanel(InGameCanvas.Panel.RoundStart);
-        // 초기 칩 지급
-        _chip.HoldChip = _chip.StartChip;
-        // 초기 액티브 카드 지급
-        for (int i = 0; i < 3; i++)
-        {
-            _card.AddRandomActiveCard();
-        }
 
-        // 턴 횟수 초기화
-        _turn.CurrentTurn = 0;
-    }
-    private void EndRoundFlow()
+    protected virtual void EndRoundFlow()
     {
         // 라운드 종료 UI 띄우기
         UIManager.ChangePanel(InGameCanvas.Panel.RoundEnd);
     }
-    private void StartShopFlow()
+    protected virtual void StartShopFlow()
     {
         // 상점 UI 띄우기
         UIManager.ChangePanel(InGameCanvas.Panel.Shop);
@@ -123,7 +127,7 @@ public class GameFlowManager : MonoBehaviour
         // 패시브 카드 선택존 세팅
         _shop.SetPassiveChoice();
     }
-    private void EndShopFlow()
+    protected virtual void EndShopFlow()
     {
 
     }

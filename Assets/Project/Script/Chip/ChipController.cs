@@ -5,6 +5,8 @@ using Utility;
 public class ChipController : MonoBehaviour
 {
     [SerializeField] private ChipControllerModel _model;
+
+    public ChipControllerModel Model => _model;
     public int StartChip { get => _model.StartChip; set => _model.StartChip = value; }
     public int HoldChip { get => _model.HoldChip; set => _model.HoldChip = value; }
     public int BettingChip { get => _model.BetChip; set => _model.BetChip = value; }

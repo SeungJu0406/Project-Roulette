@@ -1,4 +1,5 @@
 using NSJ_MVVM;
+using TMPro;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -7,7 +8,7 @@ public class PassiveChoiceCardView : BaseView
 {
     public PassiveCardData CardData;
 
-    public event UnityAction<PassiveCardData> OnPointClickEvent;
+    //public event UnityAction<PassiveCardData> OnPointClickEvent;
     public event UnityAction<PassiveCardData> OnPointEnterEvent;
     public event UnityAction<PassiveCardData> OnPointExitEvent;
 
@@ -15,6 +16,8 @@ public class PassiveChoiceCardView : BaseView
 
     private Button _choice;
     private int _index;
+
+    private TMP_Text _nameText;
     protected override void InitAwake()
     {
 
@@ -23,6 +26,7 @@ public class PassiveChoiceCardView : BaseView
     protected override void InitGetUI()
     {
         _choice = GetUI<Button>("Choice");
+        _nameText = GetUI<TMP_Text>("Name");
     }
 
     protected override void InitStart()
@@ -54,6 +58,7 @@ public class PassiveChoiceCardView : BaseView
     public void SetCard(PassiveCardData data)
     {
         CardData = data;
+        SetName(data);
     }
     public void SetIndex(int index)
     {
@@ -63,5 +68,9 @@ public class PassiveChoiceCardView : BaseView
     private void OnChoice()
     {
         OnChoiceEvent?.Invoke(_index);
+    }
+    private void SetName(PassiveCardData data)
+    {
+        _nameText.text = data.Name;
     }
 }

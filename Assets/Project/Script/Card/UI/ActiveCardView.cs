@@ -1,5 +1,6 @@
 using NSJ_MVVM;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -10,14 +11,14 @@ public class ActiveCardView : BaseView
 
     private int _index;
 
-    public event UnityAction<ActiveCardStruct> OnPointClickEvent;
+    //public event UnityAction<ActiveCardStruct> OnPointClickEvent;
     public event UnityAction<ActiveCardStruct> OnPointEnterEvent;
     public event UnityAction<ActiveCardStruct> OnPointExitEvent;
 
     public event UnityAction<int> OnCardUsedEvent;
 
     private GameObject _multiplePointer;
-
+    TMP_Text _nameText;
     protected override void InitAwake()
     {
 
@@ -26,6 +27,7 @@ public class ActiveCardView : BaseView
     protected override void InitGetUI()
     {
         _multiplePointer = GetUI("MultiplePointer");
+        _nameText = GetUI<TMP_Text>("Name");
     }
 
     protected override void InitStart()
@@ -75,9 +77,15 @@ public class ActiveCardView : BaseView
     public void SetCard(ActiveCardStruct data)
     {
         CardData = data;
+        SetName(data);
     }
     public void SetIndex(int index)
     {
         _index = index;
+    }
+
+    private void SetName(ActiveCardStruct data)
+    {
+        _nameText.text = data.Data.Name;
     }
 }

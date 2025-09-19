@@ -6,8 +6,8 @@ public class PointManager : MonoBehaviour
     public event UnityAction<RouletteSlot> OnSetSlotEvent;
     public event UnityAction<RouletteBetController> OnSetBetSpotEvent;
 
-    private RouletteSlot _slot;
-    private RouletteBetController _betSpot;
+   [SerializeField] private RouletteSlot _slot;
+   [SerializeField] private RouletteBetController _betSpot;
     private void Awake()
     {
         Manager.SetPointManager(this);

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using Utility;
 using WeightUtility;
 
@@ -20,6 +21,8 @@ public class RouletteController : MonoBehaviour
     // 당첨 안되도 당첨 처리 옵션(배당금 절반)
     [HideInInspector] public bool IsAlwaysWin = false;
     [HideInInspector] public float AlwaysWinMultiplier = 0.5f;
+
+    public event UnityAction<RouletteBetController> OnChangeCurrentBetHandler;
 
     private List<RouletteSlot> _betSlots;
     private RouletteBetController _currentBetHandler;
@@ -52,6 +55,8 @@ public class RouletteController : MonoBehaviour
 
         BetMultiplier *= _currentBetHandler == null ? 1f : _currentBetHandler.BetMultiplier;
         _currentBetHandler?.Choice(true);
+
+        OnChangeCurrentBetHandler?.Invoke(_currentBetHandler);  
     }
     public void SetBetSlots(List<RouletteSlot> betSlots)
     {

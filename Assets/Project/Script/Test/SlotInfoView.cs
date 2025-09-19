@@ -9,7 +9,7 @@ public class SlotInfoView : BaseView
 
     protected override void InitAwake()
     {
-
+        UpdateSlot(null);
     }
 
     protected override void InitGetUI()
@@ -21,7 +21,7 @@ public class SlotInfoView : BaseView
 
     protected override void InitStart()
     {
-
+      
     }
 
     protected override void SubscribeEvents()

@@ -10,12 +10,12 @@ public class PassiveCardView : BaseView
 {
     public PassiveCardStruct CardData;
 
-    public event UnityAction<PassiveCardStruct> OnPointClickEvent;
+    //public event UnityAction<PassiveCardStruct> OnPointClickEvent;
     public event UnityAction<PassiveCardStruct> OnPointEnterEvent;
     public event UnityAction<PassiveCardStruct> OnPointExitEvent;
 
     GameObject _applyImage;
-
+    TMP_Text _nameText;
     protected override void InitAwake()
     {
        
@@ -24,6 +24,7 @@ public class PassiveCardView : BaseView
     protected override void InitGetUI()
     {
         _applyImage = GetUI("ApplyImage");
+        _nameText = GetUI<TMP_Text>("Name");
     }
 
     protected override void InitStart()
@@ -55,6 +56,8 @@ public class PassiveCardView : BaseView
     public void SetCard(PassiveCardStruct data)
     {
         CardData = data;
+
+        SetName(data);
     }
 
     public void ShowApplyDisplay()
@@ -70,5 +73,10 @@ public class PassiveCardView : BaseView
         _applyImage.SetActive(true);
         yield return 0.5f.Second();
         _applyImage.SetActive(false);
+    }
+
+    private void SetName(PassiveCardStruct data)
+    {
+        _nameText.text = data.Data.Name;
     }
 }
