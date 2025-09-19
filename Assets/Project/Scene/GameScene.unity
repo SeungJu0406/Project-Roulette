@@ -3409,7 +3409,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &229311779
 RectTransform:
   m_ObjectHideFlags: 0
@@ -20618,7 +20618,7 @@ MonoBehaviour:
     _activeCards: []
     _passiveCards: []
     _maxActiveCardCount: 5
-  _test: {fileID: 11400000, guid: 1a645ecf7cdc5624781bfd37b3e8cad5, type: 2}
+  _test: {fileID: 11400000, guid: d91b9ce00c7130345869c0e971732843, type: 2}
   _testActive: {fileID: 11400000, guid: b44896503f9896b4c991c24413a7f1b0, type: 2}
 --- !u!4 &1096008884
 Transform:
@@ -39165,9 +39165,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3431611300888124549, guid: 5b61764e3ba268648be1b2a0cf8ff36b, type: 3}
       propertyPath: m_text
-      value: 'Even
-
-'
+      value: "\uC9DD"
       objectReference: {fileID: 0}
     - target: {fileID: 4816940208908801025, guid: 5b61764e3ba268648be1b2a0cf8ff36b, type: 3}
       propertyPath: _oddEven
@@ -40150,8 +40148,8 @@ SceneRoots:
   - {fileID: 277582801}
   - {fileID: 1491526416}
   - {fileID: 531308359}
+  - {fileID: 1096008884}
   - {fileID: 27298471}
   - {fileID: 1279522627}
   - {fileID: 498332866}
-  - {fileID: 1096008884}
   - {fileID: 1061345917}

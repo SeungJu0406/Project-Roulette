@@ -10,7 +10,7 @@ public class OddEvenBetHandler : RouletteBetController
     }
     [SerializeField] private OddEven _oddEven;
 
-
+    
     public override void SetSlots(RouletteSlot[] allSlots)
     {
         if (_oddEven == OddEven.Odd)

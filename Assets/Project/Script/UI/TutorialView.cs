@@ -35,6 +35,7 @@ public class TutorialView : BaseView
             tutorialList[i].SetActive(false);
         }
 
+
         _startTutorial = GetUI<Button>("StartTutorial");
         _startGame = GetUI<Button>("StartGame");
         _nextTutorial7Button = GetUI<Button>("NextTutorial7Button");   
@@ -63,6 +64,7 @@ public class TutorialView : BaseView
         _nextTutorial7Button.onClick.AddListener(NextTutorial);
         _nextTutorial9Button.onClick.AddListener(NextTutorial);
         _startGame.onClick.AddListener(StartGame);
+
     }
 
     private void NextTutorial()
@@ -83,7 +85,6 @@ public class TutorialView : BaseView
     {
         if (currentIndex != 1)
             return;
-
         NextTutorial();
     }
     private void OnChangeCurrentBetHandler(RouletteBetController betSlot)
