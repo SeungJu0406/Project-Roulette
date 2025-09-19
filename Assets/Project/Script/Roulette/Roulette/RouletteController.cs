@@ -23,6 +23,7 @@ public class RouletteController : MonoBehaviour
     [HideInInspector] public float AlwaysWinMultiplier = 0.5f;
 
     public event UnityAction<RouletteBetController> OnChangeCurrentBetHandler;
+    public event UnityAction<List<RouletteSlot>> OnChangeBetSlots;
 
     private List<RouletteSlot> _betSlots;
     private RouletteBetController _currentBetHandler;
@@ -61,6 +62,7 @@ public class RouletteController : MonoBehaviour
     public void SetBetSlots(List<RouletteSlot> betSlots)
     {
         _betSlots = new List<RouletteSlot>(betSlots);
+        OnChangeBetSlots?.Invoke(_betSlots);
     }
 
     public void AddBetMultiplier(float multiplier) => BetMultiplier *= multiplier;

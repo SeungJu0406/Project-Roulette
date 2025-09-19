@@ -11,7 +11,7 @@ public class ColorChanger : ActiveCard
         RouletteSlot slot = Manager.Point.GetSlot();
         if (slot == null) return false;
 
-        SlotColorType color = slot.Color;
+        SlotColorType color = slot.SlotColor;
 
         if (color == SlotColorType.Red)
         {

@@ -673,7 +673,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _betMultiplier: 36
   _slots: []
-  _index: 0
+  _number: 0
 --- !u!61 &2695501740794182852
 BoxCollider2D:
   m_ObjectHideFlags: 0

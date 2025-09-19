@@ -7,7 +7,7 @@ public class ColorBetHandler : RouletteBetController
     {
         foreach(var slot in allSlots)
         {
-            if (slot.Color == _color)
+            if (slot.SlotColor == _color)
             {
                 _slots.Add(slot);
             }

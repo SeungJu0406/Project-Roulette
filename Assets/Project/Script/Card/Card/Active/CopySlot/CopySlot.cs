@@ -50,7 +50,7 @@ public class CopySlot : ActiveCard
         _first.IsProbabilityChanged = true;
 
         _second.SetNumber(First.Number);
-        _second.SetColor(First.Color);
+        _second.SetColor(First.SlotColor);
         _second.SetProbability(First.Probability);
         return true;
     }

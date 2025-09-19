@@ -1,4 +1,5 @@
 using NSJ_MVVM;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -9,7 +10,7 @@ public class RouletteSlot : BaseUI
     public float Probability { get => _probability; set { _probability = value; } }
     public bool IsProbabilityChanged { get; set; }
     public int Number;
-    public SlotColorType Color;
+    public SlotColorType SlotColor;
     public int HorizontalNum;
     public int VerticalNum;
 
@@ -25,6 +26,7 @@ public class RouletteSlot : BaseUI
     private GameObject _outline;
 
     private SlotBetHandler _betHandler;
+    private RouletteController _roulette;
 
     protected override void Awake()
     {
@@ -35,12 +37,14 @@ public class RouletteSlot : BaseUI
     private void InitAwake()
     {
         _betHandler = GetComponent<SlotBetHandler>();
+        _roulette = GetComponentInParent<RouletteController>();
         SetOutline(false);
     }
 
     private void Start()
     {
         Manager.Event.OnTurnEndEvent += () => SetOutline(false);
+        _roulette.OnChangeBetSlots += SetBetSlots;
     }
 
 
@@ -73,7 +77,7 @@ public class RouletteSlot : BaseUI
     }
     public void SetColor(SlotColorType color)
     {
-        Color = color;
+        SlotColor = color;
         _black.SetActive(color == SlotColorType.Black);
         _red.SetActive(color == SlotColorType.Red);
         OnSlotInfoChanged?.Invoke();
@@ -100,6 +104,18 @@ public class RouletteSlot : BaseUI
         IsProbabilityChanged = true;
 
         OnProbabilityChanged?.Invoke();
+    }
+
+    public void SetBetSlots(List<RouletteSlot> betSlots)
+    {
+        if (betSlots == null || betSlots.Count == 0)
+        {
+            _numberText.color = Color.white;
+            return;
+        }
+
+        bool contains = betSlots.Contains(this);
+        _numberText.color = contains? Color.green : Color.white;
     }
 
     public void RevouleSlot()

@@ -15,7 +15,7 @@ public class SlotInfoView : BaseView
     protected override void InitGetUI()
     {
         _number = GetUI<TMP_Text>("Number");
-        _color = GetUI<TMP_Text>("Color");
+        _color = GetUI<TMP_Text>("SlotColor");
         _probability = GetUI<TMP_Text>("Probability");
     }
 
@@ -39,7 +39,7 @@ public class SlotInfoView : BaseView
             return;
         }
         _number.text = slot.Number.ToString();
-        _color.text = slot.Color == SlotColorType.Red? "Red" : "Black";
+        _color.text = slot.SlotColor == SlotColorType.Red? "Red" : "Black";
         _probability.text = $"{slot.Probability.ToString("F1")}%";
     }
 }
