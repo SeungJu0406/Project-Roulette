@@ -61,7 +61,12 @@ public class RouletteController : MonoBehaviour
     }
     public void SetBetSlots(List<RouletteSlot> betSlots)
     {
-        _betSlots = new List<RouletteSlot>(betSlots);
+        if (betSlots == null)
+            _betSlots = new List<RouletteSlot>();
+        else
+        {
+            _betSlots = new List<RouletteSlot>(betSlots);
+        }
         OnChangeBetSlots?.Invoke(_betSlots);
     }
 
@@ -150,6 +155,7 @@ public class RouletteController : MonoBehaviour
     public void StartTurn()
     {
         _canSpin = true;
+        SetBetSlots(null);
     }
     public void ClearBet()
     {

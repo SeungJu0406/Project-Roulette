@@ -1,4 +1,5 @@
 using NSJ_MVVM;
+using NUnit.Framework.Interfaces;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,10 +13,13 @@ public class TutorialView : BaseView
 
     Button _startTutorial;
     Button _startGame;
+    Button _nextTutorial2Button;
     Button _nextTutorial7Button;
     Button _nextTutorial9Button;
 
     int currentIndex = 0;
+
+    RouletteBetController _currentBetHandler;
 
     ChipController _chip;
     RouletteController _roullette;
@@ -38,6 +42,7 @@ public class TutorialView : BaseView
 
         _startTutorial = GetUI<Button>("StartTutorial");
         _startGame = GetUI<Button>("StartGame");
+        _nextTutorial2Button = GetUI<Button>("NextTutorial2Button");
         _nextTutorial7Button = GetUI<Button>("NextTutorial7Button");   
         _nextTutorial9Button = GetUI<Button>("NextTutorial9Button");
     }
@@ -45,7 +50,7 @@ public class TutorialView : BaseView
     protected override void InitStart()
     {
         _chip.Model.OnBetChipChanged += OnBetChipChanged;
-        _roullette.OnChangeCurrentBetHandler += OnChangeCurrentBetHandler;
+        _roullette. OnChangeCurrentBetHandler += (betController) => _currentBetHandler = betController;
         Manager.Event.OnSpinEvent += OnSpin;
         Manager.Event.OnWinEvent += OnSpinResult;
         Manager.Event.OnLoseEvent += OnSpinResult;
@@ -63,6 +68,7 @@ public class TutorialView : BaseView
         _startTutorial.onClick.AddListener(NextTutorial);
         _nextTutorial7Button.onClick.AddListener(NextTutorial);
         _nextTutorial9Button.onClick.AddListener(NextTutorial);
+        _nextTutorial2Button.onClick.AddListener(OnChangeCurrentBetHandler);
         _startGame.onClick.AddListener(StartGame);
 
     }
@@ -87,9 +93,12 @@ public class TutorialView : BaseView
             return;
         NextTutorial();
     }
-    private void OnChangeCurrentBetHandler(RouletteBetController betSlot)
+
+    private void OnChangeCurrentBetHandler()
     {
         if (currentIndex != 2)
+            return;
+        if (_currentBetHandler == null)
             return;
 
         NextTutorial();
